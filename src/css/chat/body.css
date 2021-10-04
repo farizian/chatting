@@ -3,26 +3,28 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
-aside{
+aside .userlist{
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  height: 100vh;
   margin: 0;
   background-color: white;
 }
-aside nav{
+aside .userlist nav{
   width: 100%;
   margin: 0;
   display: flex;
   align-items: center;
   background-color: yellow;
 }
-aside .searchbox{
+aside .userlist .searchbox{
   align-items: center;
   margin-top: 20px;
   margin-bottom: 10px;
 }
-aside .searchbox .box{
+aside .userlist .searchbox .box{
   align-items: center;
   padding-left: 15px;
   margin-right: 20px;
@@ -30,23 +32,23 @@ aside .searchbox .box{
   background-color: #f7f5f5;
   border-radius: 15px;
 }
-aside .searchbox .box .src{
+aside .userlist .searchbox .box .src{
   width: 30px;
   height: 30px;
   margin-right: 10px;
   color: #848484;
 }
-aside .searchbox .box input{
+aside .userlist .searchbox .box input{
   width: 80%;
   border: none;
   background-color: transparent;
 }
-aside .searchbox .plus{
+aside .userlist .searchbox .plus{
   width: 30px;
   height: 30px;
   color: #7E98DF;
 }
-aside nav h3{
+aside .userlist nav h3{
   margin: 0;
   font-family: Rubik;
   font-size: 29px;
@@ -54,19 +56,100 @@ aside nav h3{
   font-weight: 500;
   color: #7E98DF;
 }
-aside .listuser{
+.dropmenu{
+  width: 200px;
+  height: 250px;
+  padding: 20px 10px;
+  border-radius: 35px 10px 35px 35px;
+  background-color: #7E98DF;
+}
+.dropitem{
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  width: 100%;
+}
+.dropitem .imgbox{
+  width: 30%;
+  display: flex;
+  align-items: center;
+}
+.dropitem .imgbox img{
+  width: 22px;
+  height: 22px;
+}
+.dropitem p{
+  font-family: Rubik;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+  width: 70%;
+  color: white;
+}
+aside .userlist .listuser{
   width: 100%;
   margin-top: 20px;
 }
-aside .listuser img{
+aside .userlist .listuser img{
   width: 64px;
   height: 64px;
   border-radius: 20px;
   margin-right: 15px;
 }
-aside .listuser p{
+aside .userlist .listuser p{
   font-family: Rubik;
   font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+aside .settinguser{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+aside .settinguser .navprofile{
+  margin: 0;
+  display: flex;
+  height: 120px;
+  padding-left: 20px;
+  align-items: center;
+  background-color: violet;
+}
+aside .settinguser .navprofile p{
+  font-family: Rubik;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  margin: 0;
+  color: #7E98DF;
+}
+aside .settinguser .navprofile p strong{
+  margin-right: 80%;
+}
+aside .settinguser .profilebox{
+  display: flex;
+  flex-direction: column;
+  padding: 0 5%;
+  align-items: center;
+}
+aside .settinguser .profilebox img{
+  width: 82px;
+  height: 82px;
+  border-radius: 30px;
+}
+aside .settinguser .profilebox .textbox{
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+aside .settinguser .profilebox .textbox p{
+  font-family: Rubik;
+  font-size: 22px;
+  margin: 0;
   font-style: normal;
   font-weight: 500;
 }

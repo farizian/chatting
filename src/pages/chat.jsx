@@ -18,7 +18,9 @@ const Chat = (props) => {
   const [listUser, setListUser] = useState([]);
   const [receiver, setReceiver]= useState('');
   const [listMsgHistory, setListMsgHistory]= useState([]);
-  const [toggle, setToggle]= useState(false)
+  const [toggle, setToggle]= useState(true)
+  const [input, setInput]= useState(false)
+  const [setting, toggleSetting]=useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDrop = () => setDropdownOpen(prevState => !prevState);
@@ -95,46 +97,98 @@ const Chat = (props) => {
     <body  style={{width:'auto',display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:'khaki', padding:'0'}}>
       <div className="container-fluid p-0">
         <div className="row bg-info p-0 m-0">
-          <aside className="col-lg-3 px-4 py-4">
-            <nav>
-            <h3 style={{textAlign:'left', width:'92%'}}>Chatting</h3>
-            
-            <Dropdown isOpen={dropdownOpen} toggle={toggleDrop}>
-              <DropdownToggle style={{backgroundColor:'transparent', padding:'0', border:'none'}}>
-                <HiMenuAlt1 style={{width:'30px', height:'40px', color:'#7E98DF'}}/>
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem header>Header</DropdownItem>
-                <DropdownItem>Some Action</DropdownItem>
-                <DropdownItem text>Dropdown Item Text</DropdownItem>
-                <DropdownItem disabled>Action (disabled)</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Foo Action</DropdownItem>
-                <DropdownItem>Bar Action</DropdownItem>
-                <DropdownItem>Quo Action</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            </nav>
-            <div className="searchbox" style={{display:'flex', width:'100%'}}>
-              <div className="box" style={{display:'flex', width:'90%'}}>
-              <BiSearch className="src"/>
-              <input type="text" placeholder="Type your message..." />
-              </div>
-              <AiOutlinePlus className="plus" />
-            </div>
-            {listUser.length <= 0 ?(
-              <h1>User Not Found</h1>
-            ): (
-              listUser.map((e, i) => {
-                if(e.username !== detail.username){
-                  return (
-                    <div className="listuser" key={i} style={{display:'flex'}}>
-                      <img src={API_URL+e.img} alt="" srcset="" />
-                      <p onClick={() => changeReceiver(e.username)} style={{cursor:'pointer'}} >{e.username}</p>
+          <aside className="col-lg-3 p-0">
+            {!setting?(
+              <div className='userlist px-4 py-4'>
+              <nav>
+              <h3 style={{textAlign:'left', width:'92%'}}>Chatting</h3>
+              <Dropdown isOpen={dropdownOpen} toggle={toggleDrop}>
+                <DropdownToggle style={{backgroundColor:'transparent', padding:'0', border:'none'}}>
+                  <HiMenuAlt1 style={{width:'30px', height:'40px', color:'#7E98DF'}}/>
+                </DropdownToggle>
+                <DropdownMenu className='dropmenu' right>
+                  <DropdownItem onClick={()=>toggleSetting(toggle)}className='dropitem'>
+                    <div className='imgbox'>
+                      <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/Settings.png" alt="" srcset="" />
                     </div>
-                  )
-                }
-              })
+                    <p>Settings</p>
+                  </DropdownItem>
+                  <DropdownItem className='dropitem'>
+                    <div className='imgbox'>
+                      <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/Contacts.png" alt="" srcset="" />
+                    </div>
+                    <p>Contacts</p>
+                  </DropdownItem>
+                  <DropdownItem className='dropitem'>
+                    <div className='imgbox'>
+                      <img style={{width:'25px'}} src="https://raw.githubusercontent.com/farizian/chatting/master/img/Invite%20friends.png" alt="" srcset="" />
+                    </div>
+                    <p>Invite Friends</p>
+                  </DropdownItem>
+                  <DropdownItem className='dropitem'>
+                    <div className='imgbox'>
+                      <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/FAQ.png" alt="" srcset="" />
+                    </div>
+                    <p>Telegram FAQ</p>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              </nav>
+              <div className="searchbox" style={{display:'flex', width:'100%'}}>
+                <div className="box" style={{display:'flex', width:'90%'}}>
+                <BiSearch className="src"/>
+                <input type="text" placeholder="Type your message..." />
+                </div>
+                <AiOutlinePlus className="plus" />
+              </div>
+              {listUser.length <= 0 ?(
+                <h1>User Not Found</h1>
+              ): (
+                listUser.map((e, i) => {
+                  if(e.username !== detail.username){
+                    return (
+                      <div className="listuser" key={i} style={{display:'flex'}}>
+                        <img src={API_URL+e.img} alt="" srcset="" />
+                        <p onClick={() => changeReceiver(e.username)} style={{cursor:'pointer'}} >{e.username}</p>
+                      </div>
+                    )
+                  }
+                })
+              )}
+              </div>
+            ):(
+              <div className='settinguser'>
+                <nav className='navprofile'>
+                  <p><strong style={{cursor:'pointer'}} onClick={()=>toggleSetting(!toggle)}>{'<'}</strong>{detail.tag_name}</p>
+                </nav>
+                <div className='profilebox'>
+                  <img src={API_URL+detail.img} alt="" srcset="" />
+                  <div className='textbox' style={{alignItems:'center'}}>
+                    <input type="text" />
+                    <p style={{fontSize:'16px', fontWeight:'400', color:'#848484'}}>{detail.tag_name}</p>
+                  </div>
+                  <div className='textbox' style={{height:'100px',borderBottom:'solid 1px #F6F6F6'}}>
+                    <p style={{fontSize:'19px', marginBottom:'5px'}}>Account</p>
+                    {input?(
+                      <input type="text" />
+                    ):(
+                      <p style={{fontSize:'16px', fontWeight:'400', color:'#848484'}}>{detail.phone_number}</p>
+                    )}
+                    <p onClick={()=>setInput(!input)} style={{fontSize:'16px', fontWeight:'400',color:'#7E98DF', cursor:'pointer'}}>Tap to change phone number</p>
+                  </div>
+                  <div className='textbox' style={{height:'65px',borderBottom:'solid 1px #F6F6F6'}}>
+                    <input type="text" />
+                    <p style={{fontSize:'16px', fontWeight:'400',}}>Username</p>
+                  </div>
+                  <div className='textbox'>
+                    <textarea type="text" />
+                    <p style={{fontSize:'16px', fontWeight:'400',}}>Bio</p>
+                  </div>
+                  <div className='textbox'>
+                    <p style={{fontSize:'16px', fontWeight:'400',}}>Bio</p>
+                  </div>
+                </div>
+              </div>
             )}
           </aside>
           <section className="col-lg-9 p-0 sec" style={{ border:'solid 1px #E5E5E5'}}>

@@ -1,11 +1,12 @@
 /* eslint-disable array-callback-return */
 import React, {useEffect, useState} from "react";
 import socket from "../config/socket";
-import { GET_DETAIL_USER, GET_ALL_USER, GET_DETAIL_BY_NAME} from "../redux/actions/users"
+import { GET_DETAIL_USER, GET_ALL_USER, GET_DETAIL_BY_NAME, UPDATE_USER, UPDATE_PW } from "../redux/actions/users"
 import '../css/chat/body.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSelector, useDispatch } from "react-redux"
 import { API_URL } from "../helper/env";
+import { useHistory } from "react-router";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { HiMenuAlt1 } from "@react-icons/all-files/hi/HiMenuAlt1";
 import { BiSearch } from "@react-icons/all-files/bi/BiSearch";
@@ -22,7 +23,7 @@ const Chat = (props) => {
   const [input, setInput]= useState(false)
   const [setting, toggleSetting]=useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const history = useHistory()
   const toggleDrop = () => setDropdownOpen(prevState => !prevState);
   const [width, setWidth]= useState({
     chat:'100%',
@@ -33,6 +34,7 @@ const Chat = (props) => {
   const user = useSelector(state => state.user)
   const detail = user.getDetail
   const detailByName = user.getDetailByName
+  const id = detail.id
   const getData = (data) =>{
     dispatch(GET_DETAIL_USER())
     dispatch(GET_DETAIL_BY_NAME(data))
@@ -44,6 +46,7 @@ const Chat = (props) => {
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  const [updData, setUpd]=useState({})
   const changeReceiver = (username) => {
     setReceiver(username);
     getData(username)
@@ -51,6 +54,34 @@ const Chat = (props) => {
     setListMsg([]);
     socket.on('history-messages', (payload) => {
       setListMsgHistory(payload);
+    })
+  }
+  const setChange=(event)=>{
+    setUpd({
+      ...updData,
+      [event.target.name]: event.target.value,
+    })
+  }
+  const setFile = (event)=>{
+    setUpd({
+      ...updData,
+      img: event.target.files[0]
+    })
+  }
+  const updateUser=(event)=>{
+    event.preventDefault();
+    const {img, username, phone_number, tag_name, bio}=updData
+    const formData = new FormData()
+    formData.append("img", !img?user.img:img)
+    formData.append("username", !username?updData.username: username)
+    formData.append("phone", !phone_number?updData.phone_number: phone_number)
+    formData.append("tag", !tag_name?updData.tag_name:tag_name)
+    formData.append("bio", !bio?updData.bio:bio)
+    UPDATE_USER(formData, id).then((response) => {
+      alert(response.data.message)
+      history.push("/product");
+    }).catch((err) =>{
+      alert(err)
     })
   }
   const widthmenu=()=>{
@@ -67,6 +98,11 @@ const Chat = (props) => {
       })
       setToggle(false)
     }
+  }
+  const logout=()=>{
+    localStorage.removeItem('token')
+    localStorage.removeItem('img')
+    history.push('/')
   }
   const sendMessage = (e) => {
     e.preventDefault();
@@ -92,7 +128,14 @@ const Chat = (props) => {
   })
   useEffect(()=> {
     setListUser(user.getAll)
-  }, [user])
+    setUpd({
+      img: detail.img,
+      username: detail.username,
+      phone_number: detail.phone_number,
+      tag_name: detail.tag_name,
+      bio: detail.status,
+    })
+  }, [user, detail])
   return (
     <body  style={{width:'auto',display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:'khaki', padding:'0'}}>
       <div className="container-fluid p-0">
@@ -158,10 +201,10 @@ const Chat = (props) => {
               </div>
             ):(
               <div className='settinguser'>
-                <nav className='navprofile'>
+                <nav className='profile'>
                   <p><strong style={{cursor:'pointer'}} onClick={()=>toggleSetting(!toggle)}>{'<'}</strong>{detail.tag_name}</p>
                 </nav>
-                <div className='profilebox'>
+                <div className='box'>
                   <img src={API_URL+detail.img} alt="" srcset="" />
                   <div className='textbox' style={{alignItems:'center'}}>
                     <input type="text" />
@@ -185,7 +228,19 @@ const Chat = (props) => {
                     <p style={{fontSize:'16px', fontWeight:'400',}}>Bio</p>
                   </div>
                   <div className='textbox'>
-                    <p style={{fontSize:'16px', fontWeight:'400',}}>Bio</p>
+                    <p style={{fontSize:'19px', fontWeight:'500',}}>Setting</p>
+                    <div className='menu' style={{cursor:'pointer'}}>
+                      <div className='imgbox'>
+                        <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/lock.png" alt="" srcset="" />
+                      </div>
+                      <p>Change Password</p>
+                    </div>
+                    <div className='menu' onClick={logout} style={{cursor:'pointer'}}>
+                      <div className='imgbox'>
+                        <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/Chat.png" alt="" srcset="" />
+                      </div>
+                      <p>Logout</p>
+                    </div>
                   </div>
                 </div>
               </div>

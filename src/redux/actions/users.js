@@ -28,6 +28,20 @@ export const REGISTER = (data)=> {
     })
   })
 }
+export const UPDATE_PW = (pw, id)=> {
+  const token = localStorage.getItem("token")
+  return new Promise((resolve, reject) =>{
+    const headers = {
+      "token": token
+    }
+    axios.put(`${API_URL}userpw/${id}`, pw, {headers})
+    .then((response) => {
+      resolve(response)
+    }).catch ((err) => {
+      reject(err)
+    })
+  })
+}
 export const UPDATE_USER = (form, id)=> {
   const token = localStorage.getItem("token")
   return new Promise((resolve, reject) =>{
@@ -75,6 +89,7 @@ export const GET_DETAIL_BY_NAME = (name) => {
         password: response.data.field[0].password,
         phone_number: response.data.field[0].phone_number,
         tag_name: response.data.field[0].tag_name,
+        bio: response.data.field[0].bio,
       }
       dispatch({
         type: getDetailByName,
@@ -103,6 +118,7 @@ export const GET_DETAIL_USER = () => {
         password: response.data.field[0].password,
         phone_number: response.data.field[0].phone_number,
         tag_name: response.data.field[0].tag_name,
+        bio: response.data.field[0].bio,
       }
       dispatch({
         type: getDetailUser,

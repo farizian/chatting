@@ -17,7 +17,6 @@ aside .userlist nav{
   margin: 0;
   display: flex;
   align-items: center;
-  background-color: yellow;
 }
 aside .userlist .searchbox{
   align-items: center;
@@ -110,15 +109,15 @@ aside .settinguser{
   flex-direction: column;
   background-color: white;
 }
-aside .settinguser .navprofile{
+aside .settinguser .profile{
   margin: 0;
   display: flex;
-  height: 120px;
+  height: 100px;
   padding-left: 20px;
   align-items: center;
   background-color: violet;
 }
-aside .settinguser .navprofile p{
+aside .settinguser .profile p{
   font-family: Rubik;
   font-size: 24px;
   font-style: normal;
@@ -126,32 +125,51 @@ aside .settinguser .navprofile p{
   margin: 0;
   color: #7E98DF;
 }
-aside .settinguser .navprofile p strong{
+aside .settinguser .profile p strong{
   margin-right: 80%;
 }
-aside .settinguser .profilebox{
+aside .settinguser .box{
   display: flex;
   flex-direction: column;
   padding: 0 5%;
   align-items: center;
 }
-aside .settinguser .profilebox img{
+aside .settinguser .box img{
   width: 82px;
   height: 82px;
   border-radius: 30px;
 }
-aside .settinguser .profilebox .textbox{
+aside .settinguser .box .textbox{
   width: 100%;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
-aside .settinguser .profilebox .textbox p{
+aside .settinguser .box .textbox p{
   font-family: Rubik;
   font-size: 22px;
   margin: 0;
   font-style: normal;
   font-weight: 500;
+}
+aside .settinguser .box .textbox .menu{
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+aside .settinguser .box .textbox .menu .imgbox{
+  margin-right: 30px;
+}
+aside .settinguser .box .textbox .menu .imgbox img{
+  width: 20px;
+  height: 24px;
+  border-radius: 0;
+}
+aside .settinguser .box .textbox .menu p{
+  font-family: Rubik;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
 }
 .sec{
   display: flex;
@@ -282,7 +300,6 @@ aside .settinguser .profilebox .textbox p{
   height: 120px;
   align-items: center;
   justify-content: center;
-  background-color: violet;
 }
 .sec .profilesender .navprofile p{
   font-family: Rubik;
@@ -309,7 +326,6 @@ aside .settinguser .profilebox .textbox p{
   width: 100%;
   padding: 0 5%;
   margin-top: 20px;
-  background-color: #7E98DF;
 }
 .sec .profilesender .profilebox .textbox p{
   font-family: Rubik;

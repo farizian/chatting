@@ -71,32 +71,58 @@ aside .listuser p{
   font-style: normal;
   font-weight: 500;
 }
-.sec{
-  padding: 20px 5% 20px 5%;
+.sec .chatrow{
+  width: 70%;
+  padding: 0 0 20px 0;
   margin: 0;
+  background-color: #f0efef;
 }
-.sec .chatbox::-webkit-scrollbar {
+.sec .chatrow .chatnav{
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  background-color: white;
+}
+.sec .chatrow .chatnav img{
+  height: 64px;
+  width: 64px;
+  border-radius: 20px;
+}
+.sec .chatrow .chatnav .textbox{
+  height: 64px;
+  margin-left: 20px;
+}
+.sec .chatrow .chatnav .textbox p{
+  font-family: Rubik;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+.sec .chatrow .chatbox::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.sec .chatbox {
+.sec .chatrow .chatbox {
   -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  scrollbar-width: none;
+  padding: 20px 5% 0 5%;
 }
-.sec .chatbox .chatlist img{
+.sec .chatrow .chatbox .chatlist img{
   width: 54px;
   height: 54px;
   margin: 0;
   border-radius: 20px;
 }
-.sec .chatbox .chatlist{
+.sec .chatrow .chatbox .chatlist{
   align-items: center;
 }
-.sec .chatbox .chatlist .text{
+.sec .chatrow .chatbox .chatlist .text{
   padding: 10px 30px;
 }
-.sec .chatbox .chatlist .text p{
+.sec .chatrow .chatbox .chatlist .text p{
   font-family: Rubik;
   font-size: 15px;
   font-style: normal;
@@ -108,8 +134,12 @@ aside .listuser p{
 }
 
 
-
-.sec .send{
+.sec .chatrow .sendbox{
+  width: 100%;
+  height: 60px;
+  padding: 0 5%;
+}
+.sec .chatrow .sendbox .send{
   display: flex;
   align-items: center;
   height: 60px;
@@ -118,27 +148,37 @@ aside .listuser p{
   padding: 0 10px;
   background-color: #f7f5f5;
 }
-.sec .send form{
+.sec .chatrow .sendbox .send form{
   width: 80%;
 }
-.sec .send form input{
+.sec .chatrow .sendbox .send form input{
   height: 60px;
   width: 100%;
+  border: none;
+  background-color: transparent;
   padding-left: 20px;
 }
-.sec .send .rowbox{
+.sec .chatrow .sendbox .send .rowbox{
   display: flex;
   justify-content: center;
   width: 20%;
-  background-color: tomato;
 }
-.sec .send .rowbox .imgbox{
+.sec .chatrow .sendbox .send .rowbox .imgbox{
   width: 31%;
   display: flex;
+  align-items: center;
   justify-content: center;
-  background-color: teal;
 }
-.sec .send .rowbox .imgbox img{
+.sec .chatrow .sendbox .send .rowbox .imgbox img{
   width: 23px;
   height: 23px;
+}
+.sec .chatrow .sendbox .send .rowbox .imgbox .round{
+  position: absolute;
+  width: 11px;
+  height: 11px;
+}
+
+
+.sec .profilesender{
 }

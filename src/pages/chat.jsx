@@ -17,6 +17,7 @@ const Chat = (props) => {
   const [listUser, setListUser] = useState([]);
   const [receiver, setReceiver]= useState('');
   const [listMsgHistory, setListMsgHistory]= useState([]);
+  const [width, setWidth]= useState({})
   // const [read, setRead]= useState(false)
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
@@ -98,75 +99,116 @@ const Chat = (props) => {
               })
             )}
           </aside>
-          <section className="col-lg-9 sec" style={{display:'flex', flexDirection:'column', border:'solid 1px black'}}>
-            <div className="chatbox" style={{ width:"100%", height: "88vh", overflow: "scroll" }}>
-              <p>{`chat dengan ${receiver}`}</p>
-            {listMsgHistory.map((e, i) => {
-                if(e.receiver === receiver || e.sender === receiver) {
-                  return (
-                    <div key={i}>
-                      {e.sender === detail.username ? 
-                      (
-                        <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-end', alignItems:'flex-start'}}>
-                          <div className="text" style={{ width:"auto", backgroundColor:'skyblue', borderRadius:"35px 10px 35px 35px", display:"flex", alignItems:"center", justifyContent:"flex-end"}}>
-                            <p>{`${e.sender}: ${e.text_msg}`}</p>
-                          </div>
-                          <img style={{marginLeft:'20px'}} src={API_URL+detail.img} alt="" srcset="" />
-                        </div>): 
-                      (
-                        <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-start', alignItems:'flex-end'}}>
-                          <img style={{marginRight:'20px'}} src={API_URL+detailByName.img} alt="" srcset="" />
-                          <div className="text" style={{ width:"auto", backgroundColor:'lightgreen', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
-                            <p>{`${e.sender}: ${e.text_msg}`}</p>
-                          </div>
-                        </div>)}
+          <section className="col-lg-9 p-0 sec" style={{display:'flex', flexDirection:'column', border:'solid 1px #E5E5E5'}}>
+            <div className='chatrow'>
+              {listMsgHistory.length>0||listMsg.length>0?(
+                <nav className='chatnav'>
+                  <img src={API_URL+detailByName.img} alt="" srcset="" />
+                  <div className='textbox'>
+                  <p>{receiver}</p>
+                  </div>
+                </nav>
+              ):(
+                <nav className='chatnav' style={{backgroundColor:'transparent'}}></nav>
+              )}
+              
+              <div className="chatbox" style={{ width:"100%", height: "69vh", overflow: "scroll" }}>
+              {listMsgHistory.length>0||listMsg.length>0?
+              listMsgHistory.map((e, i) => {
+                  if(e.receiver === receiver || e.sender === receiver) {
+                    return (
+                      <div key={i}>
+                        {e.sender === detail.username ? 
+                        (
+                          <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-end', alignItems:'flex-start'}}>
+                            <div className="text" style={{ width:"auto", backgroundColor:'skyblue', borderRadius:"35px 10px 35px 35px", display:"flex", alignItems:"center", justifyContent:"flex-end"}}>
+                              <p>{e.text_msg}</p>
+                            </div>
+                            <img style={{marginLeft:'20px'}} src={API_URL+detail.img} alt="" srcset="" />
+                          </div>): 
+                        (
+                          <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-start', alignItems:'flex-end'}}>
+                            <img style={{marginRight:'20px'}} src={API_URL+detailByName.img} alt="" srcset="" />
+                            <div className="text" style={{ width:"auto", backgroundColor:'lightgreen', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
+                              <p>{e.text_msg}</p>
+                            </div>
+                          </div>)}
+                      </div>
+                    )
+                  }
+                }):(
+                  <div style={{
+                    width:'100%',
+                    height:'300px',
+                    display:'flex',
+                    alignItems:'center',
+                    paddingTop:'40px'
+                  }}>
+                  <p style={{
+                    width:'100%',
+                    margin:'0',
+                    textAlign:'center',
+                    fontSize:'24px',
+                    fontWeight:'400',
+                    color:'#848484'
+                  }}>Please select a chat to start messaging</p>
+                  </div>
+                )}
+                {listMsg.map((e, i) => {
+                  if(e.receiver === receiver || e.sender === receiver) {
+                    return (
+                      <div key={i}>
+                        {e.sender === detail.username ?
+                        (
+                          <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-end', alignItems:'flex-start'}}>
+                            <div className="text" style={{ width:"auto", backgroundColor:'lime', borderRadius:"35px 10px 35px 35px", display:"flex", alignItems:"center", justifyContent:"flex-end"}}>
+                              <p>{e.msg}</p>
+                            </div>
+                            <img style={{marginLeft:'20px'}} src={API_URL+detail.img} alt="" srcset="" />
+                          </div>):
+                        (
+                          <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-start', alignItems:'flex-end'}}>
+                            <img style={{marginRight:'20px'}} src={API_URL+detailByName.img} alt="" srcset="" />
+                            <div className="text" style={{ width:"auto", backgroundColor:'orange', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
+                              <p>{e.msg}</p>
+                            </div>
+                          </div>)}
+                      </div>
+                    )
+                  }
+                })}
+              
+              </div>
+              {listMsgHistory.length>0||listMsg.length>0?(
+                <div className='sendbox'>
+                  <div className="send">
+                    <form onSubmit={sendMessage}>
+                      <input type="text"
+                      value={msg}
+                      placeholder="Type your message..."
+                      onChange={(e) =>setMsg(e.target.value)}/>
+                    </form>
+                    <div className='rowbox'>
+                    <div className='imgbox'>
+                    <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/Plus.png" alt="" srcset="" />
                     </div>
-                  )
-                }
-              })}
-              {listMsg.map((e, i) => {
-                if(e.receiver === receiver || e.sender === receiver) {
-                  return (
-                    <div key={i}>
-                      {e.sender === detail.username ?
-                      (
-                        <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-end', alignItems:'flex-start'}}>
-                          <div className="text" style={{ width:"auto", backgroundColor:'lime', borderRadius:"35px 10px 35px 35px", display:"flex", alignItems:"center", justifyContent:"flex-end"}}>
-                            <p>{`${e.sender}: ${e.msg}`}</p>
-                          </div>
-                          <img style={{marginLeft:'20px'}} src={API_URL+detail.img} alt="" srcset="" />
-                        </div>):
-                      (
-                        <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-start', alignItems:'flex-end'}}>
-                          <img style={{marginRight:'20px'}} src={API_URL+detailByName.img} alt="" srcset="" />
-                          <div className="text" style={{ width:"auto", backgroundColor:'orange', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
-                            <p>{`${e.sender}: ${e.msg}`}</p>
-                          </div>
-                        </div>)}
+                    <div className='imgbox'>
+                    <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/sticker.png" alt="" srcset="" />
                     </div>
-                  )
-                }
-              })}
+                    <div className='imgbox'>
+                    <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/photobox.png" alt="" srcset=""/>
+                    <img className="round" src="https://raw.githubusercontent.com/farizian/chatting/master/img/Ellipse%2021.png" alt="" srcset="" />
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              ):(
+                <div className='sendbox'></div>
+              )}
+              
             </div>
-            <div className="send">
-              <form onSubmit={sendMessage}>
-                <input type="text"
-                value={msg}
-                placeholder="Type your message..."
-                onChange={(e) =>setMsg(e.target.value)}/>
-              </form>
-              <div className='rowbox'>
-              <div className='imgbox'>
-              <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/Plus.png" alt="" srcset="" />
-              </div>
-              <div className='imgbox'>
-              <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/sticker.png" alt="" srcset="" />
-              </div>
-              <div className='imgbox'>
-              <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/photobox.png" alt="" srcset=""/>
-              <img className="round" src="" alt="" srcset="" />
-              </div>
-              </div>
+            <div className='profilesender' style={{width:'30%'}}>
+
             </div>
           </section>
         </div>

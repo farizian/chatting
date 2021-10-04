@@ -53,7 +53,6 @@ aside nav h3{
   font-style: normal;
   font-weight: 500;
   color: #7E98DF;
-  background-color: tomato;
 }
 aside .listuser{
   width: 100%;
@@ -71,8 +70,10 @@ aside .listuser p{
   font-style: normal;
   font-weight: 500;
 }
+.sec{
+  display: flex;
+}
 .sec .chatrow{
-  width: 70%;
   padding: 0 0 20px 0;
   margin: 0;
   background-color: #f0efef;
@@ -90,8 +91,15 @@ aside .listuser p{
   width: 64px;
   border-radius: 20px;
 }
+.sec .chatrow .chatnav .menu{
+  width: 20px;
+  height: 20px;
+  border-radius: 0;
+  cursor: pointer;
+}
 .sec .chatrow .chatnav .textbox{
   height: 64px;
+  width: 90%;
   margin-left: 20px;
 }
 .sec .chatrow .chatnav .textbox p{
@@ -181,4 +189,49 @@ aside .listuser p{
 
 
 .sec .profilesender{
+  width: 30%;
+  flex-direction: column;
+  background-color: white;
+}
+.sec .profilesender .navprofile{
+  margin: 0;
+  display: flex;
+  height: 120px;
+  align-items: center;
+  justify-content: center;
+  background-color: violet;
+}
+.sec .profilesender .navprofile p{
+  font-family: Rubik;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  margin: 0;
+  color: #7E98DF;
+}
+.sec .profilesender .navprofile p strong{
+  margin-right: 20px;
+}
+.sec .profilesender .profilebox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sec .profilesender .profilebox img{
+  width: 82px;
+  height: 82px;
+  border-radius: 30px;
+}
+.sec .profilesender .profilebox .textbox{
+  width: 100%;
+  padding: 0 5%;
+  margin-top: 20px;
+  background-color: #7E98DF;
+}
+.sec .profilesender .profilebox .textbox p{
+  font-family: Rubik;
+  font-size: 22px;
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
 }

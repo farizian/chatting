@@ -6,6 +6,7 @@ import '../css/chat/body.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSelector, useDispatch } from "react-redux"
 import { API_URL } from "../helper/env";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { HiMenuAlt1 } from "@react-icons/all-files/hi/HiMenuAlt1";
 import { BiSearch } from "@react-icons/all-files/bi/BiSearch";
 import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus";
@@ -17,7 +18,14 @@ const Chat = (props) => {
   const [listUser, setListUser] = useState([]);
   const [receiver, setReceiver]= useState('');
   const [listMsgHistory, setListMsgHistory]= useState([]);
-  const [width, setWidth]= useState({})
+  const [toggle, setToggle]= useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDrop = () => setDropdownOpen(prevState => !prevState);
+  const [width, setWidth]= useState({
+    chat:'100%',
+    profile:'none'
+  })
   // const [read, setRead]= useState(false)
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
@@ -42,6 +50,21 @@ const Chat = (props) => {
     socket.on('history-messages', (payload) => {
       setListMsgHistory(payload);
     })
+  }
+  const widthmenu=()=>{
+    if(!toggle){
+      setWidth({
+        chat:'100%',
+        profile:'none'
+      })
+      setToggle(true)
+    } else {
+      setWidth({
+        chat:'70%',
+        profile:'flex'
+      })
+      setToggle(false)
+    }
   }
   const sendMessage = (e) => {
     e.preventDefault();
@@ -75,7 +98,22 @@ const Chat = (props) => {
           <aside className="col-lg-3 px-4 py-4">
             <nav>
             <h3 style={{textAlign:'left', width:'92%'}}>Chatting</h3>
-            <HiMenuAlt1 style={{width:'22px', height:'40px', backgroundColor:'lightcoral'}}/>
+            
+            <Dropdown isOpen={dropdownOpen} toggle={toggleDrop}>
+              <DropdownToggle style={{backgroundColor:'transparent', padding:'0', border:'none'}}>
+                <HiMenuAlt1 style={{width:'30px', height:'40px', color:'#7E98DF'}}/>
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem header>Header</DropdownItem>
+                <DropdownItem>Some Action</DropdownItem>
+                <DropdownItem text>Dropdown Item Text</DropdownItem>
+                <DropdownItem disabled>Action (disabled)</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>Foo Action</DropdownItem>
+                <DropdownItem>Bar Action</DropdownItem>
+                <DropdownItem>Quo Action</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
             </nav>
             <div className="searchbox" style={{display:'flex', width:'100%'}}>
               <div className="box" style={{display:'flex', width:'90%'}}>
@@ -99,19 +137,19 @@ const Chat = (props) => {
               })
             )}
           </aside>
-          <section className="col-lg-9 p-0 sec" style={{display:'flex', flexDirection:'column', border:'solid 1px #E5E5E5'}}>
-            <div className='chatrow'>
+          <section className="col-lg-9 p-0 sec" style={{ border:'solid 1px #E5E5E5'}}>
+            <div className='chatrow' style={{width:width.chat}}>
               {listMsgHistory.length>0||listMsg.length>0?(
                 <nav className='chatnav'>
                   <img src={API_URL+detailByName.img} alt="" srcset="" />
                   <div className='textbox'>
                   <p>{receiver}</p>
                   </div>
+                  <img onClick={widthmenu} className='menu' src="https://raw.githubusercontent.com/farizian/chatting/master/img/Profile_menu.png" alt="" srcset="" />
                 </nav>
               ):(
                 <nav className='chatnav' style={{backgroundColor:'transparent'}}></nav>
               )}
-              
               <div className="chatbox" style={{ width:"100%", height: "69vh", overflow: "scroll" }}>
               {listMsgHistory.length>0||listMsg.length>0?
               listMsgHistory.map((e, i) => {
@@ -207,8 +245,20 @@ const Chat = (props) => {
               )}
               
             </div>
-            <div className='profilesender' style={{width:'30%'}}>
-
+            <div className='profilesender' style={{display:width.profile}}>
+              <nav className='navprofile'>
+                <p><strong style={{cursor:'pointer'}} onClick={widthmenu}>{'<'}</strong>{detailByName.tag_name}</p>
+              </nav>
+              <div className='profilebox'>
+                <img src={API_URL+detailByName.img} alt="" srcset="" />
+                <div className='textbox'>
+                  <p>{detailByName.username}</p>
+                </div>
+                <div className='textbox'>
+                  <p style={{fontSize:'19px'}}>Phone number</p>
+                  <p style={{fontSize:'16px', fontWeight:'400'}}>{detailByName.phone_number}</p>
+                </div>
+              </div>
             </div>
           </section>
         </div>

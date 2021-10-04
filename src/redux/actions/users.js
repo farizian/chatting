@@ -74,6 +74,7 @@ export const GET_DETAIL_BY_NAME = (name) => {
         email: response.data.field[0].email,
         password: response.data.field[0].password,
         phone_number: response.data.field[0].phone_number,
+        tag_name: response.data.field[0].tag_name,
       }
       dispatch({
         type: getDetailByName,

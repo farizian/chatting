@@ -1,0 +1,10 @@
+1. dari FE mengirim data berupa username dan roomId di halaman login yg ditampung di state masing masing dan
+  ketika submit, dikirim melalui history.push berupa query yang mengarah ke halaman chat sesuai dengan roomId
+
+2. di FE halaman chat diterima data dari username dan roomId dari login melalui query.get('roomId') dan query.get('username')
+3. di FE halaman chat mengirim data roomId dengan emit('login', roomId), 
+4. di BE ditangkap data dari FE oleh socket.on dengan key 'login' dan roomIdnya di gunakan untuk join dengan fungsi socket.join(roomId)
+5. lalu user mengetik pesan yang nantinya pesannya dikirim bersamaan dengan roomId, dan username si user melalui fungsi emit dengan key 'send-message-private'.
+
+6. di BE ditangkap data dari FE oleh socket.on dengan key 'send-message-private' lalu dikirim kembali data pesan dan usernamenya ke FE dengan io.to(room).emit dengan key 'get-message-private'
+7. lalu di FE di terima datanya dari BE berupa pesan dan username dengan socket.on dengan key 'get-message-private' dan di tampung di state listMsg dengan perintah setListMsg([...listMsg, payload]) (payload adalah data dari BE berupa username dan pesan) lalu di tampilkan pesannya di halaman browser, di looping datanya dengan map dengan kondisi jika username di listMsg sama dengan username di query parameter maka pesannya akan tampil di sebelah kanan, jika tidak maka akan tampil di sebelah kiri

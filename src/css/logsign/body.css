@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.logsign{
+  height: 150vh;
+  background-color: #E5E5E5;
+}
+
+.logsign .box{
+  width: 40%;
+  border-radius: 30px;
+  padding: 40px 5% 40px 5%;
+  background-color: white;
+}
+.logsign .box h1{
+  font-family: Rubik;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  color: #7E98DF;
+}
+.logsign .box p{
+  font-family: Rubik;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+/* login */
+
+.box .formlgn{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.box .formlgn .headerlogin{
+    width: 100%;
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.box .formlgn .header h1{
+    font-family: Poppins;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 45px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: black;
+}
+.box .formlgn .signbox{
+    width: 100%;
+    padding-bottom: 20px;
+    /* background-color: aqua; */
+}
+.box .formlgn .signbox h3{
+    font-size: 20px;
+    font-weight: bold;
+    color: #4F5665;
+    text-align: left;
+    right: 155px;
+    margin-bottom: 10px;
+
+}
+.box .formlgn .signbox .textbox{
+    width: 100%;
+    background-color: transparent;
+    border-bottom: solid 2px #232323;
+    margin-bottom: 30px;
+}
+.box .formlgn .signbox .textbox p{
+    font-family: Rubik;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+    color: #848484;
+}
+.box .formlgn .signbox .textbox input{
+    box-sizing: border-box ;
+    height: 50px;
+    font-family: Lato;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0px;
+    text-align: left;
+    width: 90%;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+}
+.box .formlgn .signbox .textbox .img{
+    width: 20px;
+    height: 20px;
+}
+.box .formlgn .signbox h3{
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    width: 100%;
+    cursor: pointer;
+    text-align: end;
+}
+.box .formlgn .signbox h3:hover{
+    color: #7E98DF;
+}
+.box .buttonlgn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.box .buttonlgn .btn{
+    width: 100%;
+    padding: 0;
+}
+.box .buttonlgn .btn .sign{
+    background-color: #7E98DF;
+    width: 100%;
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    color: white;
+    height: 60px;
+    border: none;
+    border-radius: 70px;
+    box-shadow: 0px 8px 10px 0px #2395FF4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: 50ms;
+}
+.box .buttonlgn .btn .sign p{
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    color: #2395FF;
+    margin: 0 0 0 15px;
+    width: unset;
+}
+.box .buttonlgn .btn .sign img{
+    width: 18px;
+    height: 18px;
+}
+#sign2{
+    margin-top: 0;
+    background-color: white;
+    border: 1px solid #2395FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.box .buttonlgn .btn .sign:hover{
+    font-weight: 900;
+    transform: scale(1.1);
+}
+.box .buttonlgn .with-line {
+    display: flex;
+    width: 100%;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+}
+.box .buttonlgn .with-line p{
+    margin: 0 30px 0 30px;
+    width: 20%;
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    color: #848484;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#sgn{
+    width: 30%;
+}
+.box .buttonlgn .with-line:before,
+.box .buttonlgn .with-line:after {
+    content: "";
+    display: inline-block;
+    border-top: 1px solid #848484;
+    width: 25%;
+    vertical-align: middle;
+    margin: 0 1em 0 1em;
+}
+.box .buttonlgn p{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 30px 0 0 0;
+}
+.box .buttonlgn p .link{
+    color: #7E98DF;
+}
+.box .buttonlgn p .link .bold{
+    color: #7E98DF;
+    cursor: pointer;
+}
+.box .buttonlgn p .link:hover{
+    transform: scale(1.1);
+}
+@media screen and (max-width: 576px) {
+    .logsign{
+        height: unset;
+    }
+    .logsign .box{
+        width: 95%;
+        margin: 5px 0;
+    }
+    .box .buttonlgn .with-line {
+        display: flex;
+        width: 100%;
+        margin-top: 15px;
+        align-items: center;
+        justify-content: center;
+    }
+    .box .buttonlgn .with-line p{
+        margin: 0 30px 0 30px;
+        width: 25%;
+        font-family: Rubik;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        color: #848484;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .box .buttonlgn .with-line:before,
+    .box .buttonlgn .with-line:after {
+        content: "";
+        display: inline-block;
+        border-top: 1px solid #848484;
+        width: 20%;
+        vertical-align: middle;
+        margin: 0 1em 0 1em;
+    }
+    .box .buttonlgn p{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin: 30px 0 0 0;
+    }
+    .box .buttonlgn p span{
+        color: #7E98DF;
+    }
+}

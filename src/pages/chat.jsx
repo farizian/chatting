@@ -155,6 +155,18 @@ const Chat = (props) => {
                 placeholder="Type your message..."
                 onChange={(e) =>setMsg(e.target.value)}/>
               </form>
+              <div className='rowbox'>
+              <div className='imgbox'>
+              <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/Plus.png" alt="" srcset="" />
+              </div>
+              <div className='imgbox'>
+              <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/sticker.png" alt="" srcset="" />
+              </div>
+              <div className='imgbox'>
+              <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/photobox.png" alt="" srcset=""/>
+              <img className="round" src="" alt="" srcset="" />
+              </div>
+              </div>
             </div>
           </section>
         </div>

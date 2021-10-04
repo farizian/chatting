@@ -110,16 +110,35 @@ aside .listuser p{
 
 
 .sec .send{
+  display: flex;
+  align-items: center;
   height: 60px;
   width: 100%;
   border-radius: 15px;
   padding: 0 10px;
   background-color: #f7f5f5;
 }
-.sec .send input{
-  height: 60px;
+.sec .send form{
   width: 80%;
-  border: none;
-  background-color: transparent;
+}
+.sec .send form input{
+  height: 60px;
+  width: 100%;
   padding-left: 20px;
+}
+.sec .send .rowbox{
+  display: flex;
+  justify-content: center;
+  width: 20%;
+  background-color: tomato;
+}
+.sec .send .rowbox .imgbox{
+  width: 31%;
+  display: flex;
+  justify-content: center;
+  background-color: teal;
+}
+.sec .send .rowbox .imgbox img{
+  width: 23px;
+  height: 23px;
 }

@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSelector, useDispatch } from "react-redux"
 import { API_URL } from "../helper/env";
 import { useHistory } from "react-router";
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input } from 'reactstrap';
 import { HiMenuAlt1 } from "@react-icons/all-files/hi/HiMenuAlt1";
 import { BiSearch } from "@react-icons/all-files/bi/BiSearch";
 import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus";
@@ -70,16 +70,15 @@ const Chat = (props) => {
   }
   const updateUser=(event)=>{
     event.preventDefault();
-    const {img, username, phone_number, tag_name, bio}=updData
+    const {img, username, phone, tag, bio}=updData
     const formData = new FormData()
     formData.append("img", !img?user.img:img)
     formData.append("username", !username?updData.username: username)
-    formData.append("phone", !phone_number?updData.phone_number: phone_number)
-    formData.append("tag", !tag_name?updData.tag_name:tag_name)
+    formData.append("phone", !phone?updData.phone: phone)
+    formData.append("tag", !tag?updData.tag:tag)
     formData.append("bio", !bio?updData.bio:bio)
     UPDATE_USER(formData, id).then((response) => {
       alert(response.data.message)
-      history.push("/product");
     }).catch((err) =>{
       alert(err)
     })
@@ -131,9 +130,9 @@ const Chat = (props) => {
     setUpd({
       img: detail.img,
       username: detail.username,
-      phone_number: detail.phone_number,
-      tag_name: detail.tag_name,
-      bio: detail.status,
+      phone: detail.phone_number,
+      tag: detail.tag_name,
+      bio: detail.bio,
     })
   }, [user, detail])
   return (
@@ -200,31 +199,36 @@ const Chat = (props) => {
               )}
               </div>
             ):(
-              <div className='settinguser'>
+              <form className='settinguser'>
                 <nav className='profile'>
-                  <p><strong style={{cursor:'pointer'}} onClick={()=>toggleSetting(!toggle)}>{'<'}</strong>{detail.tag_name}</p>
+                  <p style={{cursor:'pointer', width:'40%'}} onClick={()=>toggleSetting(!toggle)}><strong>{'<'}</strong></p>
+                  <p onClick={updateUser} style={{cursor:'pointer', width:'60%', paddingLeft:'0'}}>{detail.tag_name}</p>
                 </nav>
                 <div className='box'>
-                  <img src={API_URL+detail.img} alt="" srcset="" />
+                  <Input type="file" id="file-input" className="select" onChange={setFile}>
+                  </Input>
+                  <label for="file-input">
+                    <img for="file-input" src={API_URL+updData.img} alt="" srcset="" />
+                  </label>
                   <div className='textbox' style={{alignItems:'center'}}>
-                    <input type="text" />
+                    <input type="text" style={{textAlign:'center'}} name="username" value={updData.username} onChange={setChange}/>
                     <p style={{fontSize:'16px', fontWeight:'400', color:'#848484'}}>{detail.tag_name}</p>
                   </div>
                   <div className='textbox' style={{height:'100px',borderBottom:'solid 1px #F6F6F6'}}>
                     <p style={{fontSize:'19px', marginBottom:'5px'}}>Account</p>
                     {input?(
-                      <input type="text" />
+                      <input type="text" name="phone" style={{fontSize:'16px', fontWeight:'400', color:'#848484'}} value={updData.phone} onChange={setChange}/>
                     ):(
                       <p style={{fontSize:'16px', fontWeight:'400', color:'#848484'}}>{detail.phone_number}</p>
                     )}
                     <p onClick={()=>setInput(!input)} style={{fontSize:'16px', fontWeight:'400',color:'#7E98DF', cursor:'pointer'}}>Tap to change phone number</p>
                   </div>
                   <div className='textbox' style={{height:'65px',borderBottom:'solid 1px #F6F6F6'}}>
-                    <input type="text" />
+                    <input type="text" name="tag" style={{fontSize:'16px', fontWeight:'500'}} value={updData.tag} onChange={setChange}/>
                     <p style={{fontSize:'16px', fontWeight:'400',}}>Username</p>
                   </div>
                   <div className='textbox'>
-                    <textarea type="text" />
+                    <textarea type="text" name="bio" value={updData.bio} onChange={setChange} />
                     <p style={{fontSize:'16px', fontWeight:'400',}}>Bio</p>
                   </div>
                   <div className='textbox'>
@@ -243,12 +247,12 @@ const Chat = (props) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
             )}
           </aside>
           <section className="col-lg-9 p-0 sec" style={{ border:'solid 1px #E5E5E5'}}>
             <div className='chatrow' style={{width:width.chat}}>
-              {listMsgHistory.length>0||listMsg.length>0?(
+              {receiver?(
                 <nav className='chatnav'>
                   <img src={API_URL+detailByName.img} alt="" srcset="" />
                   <div className='textbox'>
@@ -260,7 +264,7 @@ const Chat = (props) => {
                 <nav className='chatnav' style={{backgroundColor:'transparent'}}></nav>
               )}
               <div className="chatbox" style={{ width:"100%", height: "69vh", overflow: "scroll" }}>
-              {listMsgHistory.length>0||listMsg.length>0?
+              {receiver?
               listMsgHistory.map((e, i) => {
                   if(e.receiver === receiver || e.sender === receiver) {
                     return (
@@ -276,7 +280,7 @@ const Chat = (props) => {
                         (
                           <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-start', alignItems:'flex-end'}}>
                             <img style={{marginRight:'20px'}} src={API_URL+detailByName.img} alt="" srcset="" />
-                            <div className="text" style={{ width:"auto", backgroundColor:'lightgreen', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
+                            <div className="text" style={{ width:"auto", backgroundColor:'#7E98DF', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
                               <p>{e.text_msg}</p>
                             </div>
                           </div>)}
@@ -308,7 +312,7 @@ const Chat = (props) => {
                         {e.sender === detail.username ?
                         (
                           <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-end', alignItems:'flex-start'}}>
-                            <div className="text" style={{ width:"auto", backgroundColor:'lime', borderRadius:"35px 10px 35px 35px", display:"flex", alignItems:"center", justifyContent:"flex-end"}}>
+                            <div className="text" style={{ width:"auto", backgroundColor:'skyblue', borderRadius:"35px 10px 35px 35px", display:"flex", alignItems:"center", justifyContent:"flex-end"}}>
                               <p>{e.msg}</p>
                             </div>
                             <img style={{marginLeft:'20px'}} src={API_URL+detail.img} alt="" srcset="" />
@@ -316,7 +320,7 @@ const Chat = (props) => {
                         (
                           <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-start', alignItems:'flex-end'}}>
                             <img style={{marginRight:'20px'}} src={API_URL+detailByName.img} alt="" srcset="" />
-                            <div className="text" style={{ width:"auto", backgroundColor:'orange', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
+                            <div className="text" style={{ width:"auto", backgroundColor:'#7E98DF', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
                               <p>{e.msg}</p>
                             </div>
                           </div>)}
@@ -326,7 +330,7 @@ const Chat = (props) => {
                 })}
               
               </div>
-              {listMsgHistory.length>0||listMsg.length>0?(
+              {receiver ? (
                 <div className='sendbox'>
                   <div className="send">
                     <form onSubmit={sendMessage}>

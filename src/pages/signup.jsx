@@ -20,10 +20,9 @@ const Login = () => {
   const handleSign =(e)=> {
     e.preventDefault();
     REGISTER(user).then((response) =>{
-      alert("Register Berhasil")
       history.push(`/`);
     }).catch((err) =>{
-      alert("username/password salah")
+      alert('email/password tidak boleh kosong')
     })
   }
   const [type, setType] = useState('password')

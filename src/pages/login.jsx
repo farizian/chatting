@@ -25,10 +25,9 @@ const Login = () => {
   const handleSign =(e)=> {
     e.preventDefault();
     LOGIN(user).then(() =>{
-      alert("Login Berhasil")
       history.push(`/chat`);
     }).catch((err) =>{
-      alert("username/password salah")
+      alert("email/password salah")
     })
   }
   const [type, setType] = useState('password')

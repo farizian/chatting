@@ -23,8 +23,8 @@ export const REGISTER = (data)=> {
     axios.post(`${API_URL}register`, data)
     .then((response) => {
       resolve(response.data.success)
-    }).catch ((err) => {
-      reject(err)
+    }).catch ((response) => {
+      reject(response)
     })
   })
 }

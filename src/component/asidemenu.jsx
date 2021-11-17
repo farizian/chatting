@@ -1,24 +1,14 @@
 /* eslint-disable array-callback-return */
 import React, {useEffect, useState} from "react";
-import socket from "../config/socket";
-import { GET_DETAIL_USER, GET_ALL_USER, UPDATE_USER, UPDATE_PW, GET_DETAIL_BYID } from "../redux/actions/users"
+import { UPDATE_USER } from "../redux/actions/users"
 import '../css/chat/body.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSelector, useDispatch } from "react-redux"
 import { API_URL } from "../helper/env";
 import { useHistory } from "react-router";
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input } from 'reactstrap';
-import { HiMenuAlt1 } from "@react-icons/all-files/hi/HiMenuAlt1";
-import { BiSearch } from "@react-icons/all-files/bi/BiSearch";
-import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus";
-// import { BsCheckAll } from "@react-icons/all-files/bs/BsCheckAll";
+import { Input } from 'reactstrap';
 
 const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) => {
-  const [msg, setMsg] =useState("")
-  const [listMsg, setListMsg] = useState([]);
-  const [listUser, setListUser] = useState([]);
-  const [receiver, setReceiver]= useState('');
-  const [listMsgHistory, setListMsgHistory]= useState([]);
   const [input, setInput]= useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const history = useHistory()

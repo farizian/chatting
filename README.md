@@ -9,11 +9,11 @@
   <p align="center">
     Chatting App
     <br/>
-    for backend repository click [this](https://github.com/farizian/week/19)
+    
   </p>
 </div>
 
-
+for backend repository click [this](https://github.com/farizian/week/19)
 
 <!-- TABLE OF CONTENTS -->
 <details>

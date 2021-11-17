@@ -119,12 +119,10 @@ aside .settinguser .profile{
   margin: 0;
   display: flex;
   align-items: center;
-  background-color: tomato;
   height: 120px;
 }
 aside .settinguser .profile p{
   font-family: Rubik;
-  background-color: turquoise;
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
@@ -272,7 +270,6 @@ aside .settinguser .box Input#file-input{
 
 
 .sec .chatrow .sendbox{
-  width: 100%;
   height: 60px;
   padding: 0 5%;
 }
@@ -280,13 +277,12 @@ aside .settinguser .box Input#file-input{
   display: flex;
   align-items: center;
   height: 60px;
-  width: 100%;
   border-radius: 15px;
   padding: 0 10px;
   background-color: #f7f5f5;
 }
 .sec .chatrow .sendbox .send form{
-  width: 80%;
+  width: 90%;
 }
 .sec .chatrow .sendbox .send form input{
   height: 60px;
@@ -298,7 +294,7 @@ aside .settinguser .box Input#file-input{
 .sec .chatrow .sendbox .send .rowbox{
   display: flex;
   justify-content: center;
-  width: 20%;
+  width: 10%;
 }
 .sec .chatrow .sendbox .send .rowbox .imgbox{
   width: 31%;
@@ -315,7 +311,6 @@ aside .settinguser .box Input#file-input{
   width: 11px;
   height: 11px;
 }
-
 
 .sec .profilesender{
   width: 30%;
@@ -362,11 +357,22 @@ aside .settinguser .box Input#file-input{
   font-style: normal;
   font-weight: 500;
 }
+.btnsave{
+  margin-bottom: 10px;
+  height: 50px;
+  background-color: #7E98DF;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: 700;
+}
 @media screen and (max-width: 576px) {
   aside .userlist{
     height: unset;
   }
   .sec .profilesender{
-    position: absolute;
+    width: 100%;
+    flex-direction: column;
+    background-color: white;
   }
 }

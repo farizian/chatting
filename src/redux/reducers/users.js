@@ -9,32 +9,32 @@ const userState = {
   loadDetail: false,
   errorDetail: false,
   errorMessageDetail: '',
-  getDetailByName: {},
-  loadDetailByName: false,
-  errorDetailByName: false,
-  errorMessageDetailByName: '',
+  getDetailById: {},
+  loadDetailById: false,
+  errorDetailById: false,
+  errorMessageDetailById: '',
 }
 
 const userReducer = (state=userState, action) => {
   switch (action.type) {
-    case getAllUserPending:
+    case "getAllUserPending":
       return {...state, loadAll: true}
-    case getAllUser:
+    case "getAllUser":
       return {...state, loadAll: false, getAll: action.payload}
-    case getAllUserError:
+    case "getAllUserError":
       return {...state, loadAll: false, errorAll: true, errorMessageAll: action.payload}
-    case getDetailUserPending:
+    case "getDetailUserPending":
       return {...state, loadDetail: true}
-    case getDetailUser:
+    case "getDetailUser":
       return {...state, loadDetail: false, getDetail: action.payload}
-    case getDetailUserError:
+    case "getDetailUserError":
       return {...state, loadDetail: false, errorDetail: true, errorMessageDetail: action.payload}
-    case getDetailByNamePending:
+    case "getDetailByIdPending":
       return {...state, loadDetail: true}
-    case getDetailByName:
-      return {...state, loadDetailByName: false, getDetailByName: action.payload}
-    case getDetailByNameError:
-      return {...state, loadDetailByName: false, errorDetailByName: true, errorMessageDetailByName: action.payload}
+    case "getDetailById":
+      return {...state, loadDetailById: false, getDetailById: action.payload}
+    case "getDetailByIdError":
+      return {...state, loadDetailById: false, errorDetailById: true, errorMessageDetailById: action.payload}
     default:
       return state
   }

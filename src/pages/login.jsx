@@ -10,8 +10,7 @@ import { BsEyeSlashFill } from "@react-icons/all-files/bs/BsEyeSlashFill";
 
 const Login = () => {
   const history = useHistory();
-  const [name, setName] = useState('');
-  const [roomId, setRoomId]= useState();
+  const [errMsg, setErr]= useState();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -24,11 +23,18 @@ const Login = () => {
   }
   const handleSign =(e)=> {
     e.preventDefault();
-    LOGIN(user).then(() =>{
-      history.push(`/chat`);
-    }).catch((err) =>{
-      alert("email/password salah")
-    })
+    const valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(user.email)
+    if(user.email === "" || user.password === ""){
+      setErr("input harus diisi.")
+    } else if (!valid) {
+      setErr("input email tidak sesuai.")
+    } else {
+      LOGIN(user).then(() =>{
+        history.push(`/chat`);
+      }).catch((err) =>{
+        setErr(err.response.data.error)
+      })
+    }
   }
   const [type, setType] = useState('password')
 
@@ -66,6 +72,7 @@ const Login = () => {
                 )
               }
             </div>
+            <p style={{color:'red'}}>{errMsg}</p>
             <h3>Forgot password?</h3>
           </div>
           <div className="buttonlgn">

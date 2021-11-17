@@ -5,12 +5,18 @@ import { Link } from "react-router-dom";
 import '../css/logsign/body.css'
 import { REGISTER } from "../redux/actions/users"
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { IoIosArrowBack } from "react-icons/io"
 import { BsEyeFill } from "@react-icons/all-files/bs/BsEyeFill";
 import { BsEyeSlashFill } from "@react-icons/all-files/bs/BsEyeSlashFill";
 
 const Login = () => {
   const history = useHistory();
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({
+    username: "",
+    email: '',
+    password: ''
+  })
+  const [errMsg, setErr] = useState()
   const setData=(event)=>{
     setUser({
       ...user,
@@ -19,18 +25,32 @@ const Login = () => {
   }
   const handleSign =(e)=> {
     e.preventDefault();
-    REGISTER(user).then((response) =>{
-      history.push(`/`);
-    }).catch((err) =>{
-      alert('email/password tidak boleh kosong')
-    })
+    const valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(user.email)
+    if(user.email==="" || user.password === ""){
+      setErr("email atau password tidak boleh kosong")
+    } else if (user.username==="") {
+      setErr("username tidak boleh kosong")
+    } else if (!valid) {
+      setErr("format email tidak sesuai.")
+    } else {
+      REGISTER(user).then(() =>{
+        history.push(`/`);
+      }).catch((err) =>{
+        setErr(err.response.data.error)
+      })
+    }
   }
   const [type, setType] = useState('password')
 
   return (
     <body className="d-flex align-items-center justify-content-center flex-column logsign" >
       <section className="d-flex align-items-center flex-column box">
-        <h1>Register</h1>
+      <div className="d-flex align-items-center w-100">
+          <div className="d-flex justify-content-start" style={{width:'40%', cursor:'pointer'}}>
+            <IoIosArrowBack color="#7E98DF" style={{fontSize:'25px'}} onClick={()=>history.push('/')}/>
+          </div>
+        <h1 className="m-0" style={{width:'60%'}}>Register</h1>
+        </div>
         <p className="mt-4">Let’s create your account!</p>
         <form onSubmit={handleSign} className="formlgn">
           <div className="signbox">
@@ -40,6 +60,7 @@ const Login = () => {
               type="text" 
               placeholder="Username" 
               name="username"
+              value={user.username}
               onChange={setData} 
               >
               </input>
@@ -50,6 +71,7 @@ const Login = () => {
               type="text" 
               placeholder="Email" 
               name="email"
+              value={user.email}
               onChange={setData} 
               >
               </input>
@@ -60,6 +82,7 @@ const Login = () => {
               type={type} 
               placeholder="Password" 
               name="password" 
+              value={user.password}
               onChange={setData}
               >
               </input>
@@ -71,6 +94,7 @@ const Login = () => {
                 )
               }
             </div>
+            <p style={{color:'red'}}>{errMsg}</p>
           </div>
           <div className="buttonlgn">
             <div className="btn">

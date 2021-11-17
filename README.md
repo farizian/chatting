@@ -13,7 +13,7 @@
   </p>
 </div>
 
-for backend repository click [this](https://github.com/farizian/week/19)
+for backend repository click [this](https://github.com/farizian/chatting_BE)
 
 <!-- TABLE OF CONTENTS -->
 <details>

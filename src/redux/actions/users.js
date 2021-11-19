@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../../helper/env";
-import { getAllUser, getAllUserPending, getAllUserError, getDetailUser, getDetailUserPending, getDetailUserError, getDetailByName, getDetailByNamePending, getDetailByNameError } from "../../helper/var";
+// import { getAllUser, getAllUserPending, getAllUserError, getDetailUser, getDetailUserPending, getDetailUserError, getDetailByName, getDetailByNamePending, getDetailByNameError } from "../../helper/var";
 
 
 

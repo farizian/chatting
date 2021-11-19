@@ -1,21 +1,17 @@
 /* eslint-disable array-callback-return */
 import React, {useEffect, useState} from "react";
-import { UPDATE_USER } from "../redux/actions/users"
+import { UPDATE_USER, UPDATE_PW } from "../redux/actions/users"
 import '../css/chat/body.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useSelector, useDispatch } from "react-redux"
 import { API_URL } from "../helper/env";
 import { useHistory } from "react-router";
-import { Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from "reactstrap"
 
 const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) => {
   const [input, setInput]= useState(false)
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const history = useHistory()
-  const toggleDrop = () => setDropdownOpen(prevState => !prevState);
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
- 
+  const [modalPw, setModalPw] = useState(false);
+  const togglePw = () => setModalPw(!modalPw);
   const [updData, setUpd]=useState({})
   
   const setChange=(event)=>{
@@ -47,6 +43,20 @@ const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) =>
     }).catch((err) =>{
       alert(err.response.data.message)
     })
+  }
+  const updatePw=(event)=>{
+    event.preventDefault();
+    const userPw = {
+      oldpassword: updData.oldpassword,
+      password: updData.password
+    }
+    UPDATE_PW(userPw).then((response) => {
+      alert(response.data.message)
+    }).catch((err) =>{
+      alert("password tidak sesuai")
+      console.log(err.response.data.error)
+    })
+    togglePw()
   }
   const logout=()=>{
     localStorage.removeItem('token')
@@ -99,12 +109,31 @@ const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) =>
           </div>
           <div className='textbox'>
             <p style={{fontSize:'19px', fontWeight:'500',}}>Setting</p>
-            <div className='menu' style={{cursor:'pointer'}}>
+            <div className='menu' style={{cursor:'pointer'}} onClick={togglePw}>
               <div className='imgbox'>
                 <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/lock.png" alt="" srcset="" />
               </div>
               <p>Change Password</p>
             </div>
+            <Modal isOpen={modalPw} toggle={togglePw} modalClassName="d-flex align-items-center" className='w-100'>
+              <ModalHeader toggle={togglePw}>Edit Password</ModalHeader>
+              <ModalBody>
+              <form className="insert">
+                <div className="textbox" style={{marginBottom:'10px'}}>
+                  <h3>Old Password :</h3>
+                  <Input type="password" placeholder="Insert Password" name="oldpassword" onChange={setChange}></Input>
+                </div>
+                <div className="textbox">
+                  <h3>New Password :</h3>
+                  <Input type="password" placeholder="Insert Password" name="password" onChange={setChange}></Input>
+                </div>
+              </form>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={updatePw}>Submit</Button>{' '}
+                <Button color="secondary" onClick={togglePw}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
             <div className='menu' onClick={logout} style={{cursor:'pointer'}}>
               <div className='imgbox'>
                 <img src="https://raw.githubusercontent.com/farizian/chatting/master/img/Chat.png" alt="" srcset="" />

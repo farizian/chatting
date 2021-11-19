@@ -47,15 +47,23 @@ const Chat = (props) => {
     dispatch(GET_DETAIL_USER())
     dispatch(GET_DETAIL_BYID(data))
     dispatch(GET_ALL_USER())
-  
+    
+    
   }
   socket.emit('login', detail.id);
  
   useEffect(() => {
     getData()
+    // getHist()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+  const getHist = () => {
+    socket.on("history-messages", (payload) => {
+      setListMsgHistory(payload)
+      setListMsg([])
+      setNotif([])
+    })
+  }
   const widthmenu=()=>{
     const mediaMatch = window.matchMedia('(max-width: 576px)');
     if(!toggle){
@@ -132,7 +140,6 @@ const Chat = (props) => {
     });
     // di set pesan sementara berdasarkan data untuk di tampilkan di sender
     setListMsg([...listMsg, data])
-    console.log(data)
     // state penampung kalimat pesan di kosongkan
     setMsg('');
     // kosongkan notif ketika selesai mengirim chat
@@ -176,14 +183,8 @@ const Chat = (props) => {
       })
     })
     // tampilkan pesan history ketika ada perubahan data seperti penghapusan pesan
-    socket.on("history-messages", (payload) => {
-      setListMsgHistory(payload)
-      setListMsg([])
-    })
-    socket.emit('broadcast', detail.id)
-    socket.on('get-online-broadcast', (payload) => {
-      setOn(payload)
-    })
+    
+    
   })
   const handleSearch = (e) => {
     e.preventDefault();
@@ -192,6 +193,11 @@ const Chat = (props) => {
 
   useEffect(()=> {
     setListUser(user.getAll)
+    socket.emit('broadcast', detail.id)
+    socket.on('get-online-broadcast', (payload) => {
+      setOn(payload)
+    })
+    getHist()
   }, [user, detail])
   return (
     <body  style={{width:'auto',display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:'khaki', padding:'0'}}>

@@ -2,13 +2,13 @@
 import React, {useEffect, useState} from "react";
 import socket from "../config/socket";
 import { GET_DETAIL_USER, GET_ALL_USER, GET_DETAIL_BYID } from "../redux/actions/users"
-import { LISTMESSAGE, HISTORYMESSAGE, DELETEMESSAGE, USER_ONLINE } from "../redux/actions/chat";
+// import { LISTMESSAGE, HISTORYMESSAGE, DELETEMESSAGE, USER_ONLINE } from "../redux/actions/chat";
 import '../css/chat/body.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSelector, useDispatch } from "react-redux"
 import { API_URL } from "../helper/env";
-import { useHistory } from "react-router";
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input } from 'reactstrap';
+// import { useHistory } from "react-router";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import { HiMenuAlt1, HiOutlineTrash } from "react-icons/hi"
 import { IoIosArrowBack } from 'react-icons/io'
 import { BiSearch } from "@react-icons/all-files/bi/BiSearch";
@@ -28,10 +28,10 @@ const Chat = (props) => {
   const [toggle, setToggle]= useState(true)
   const [toggleDel, setToggleDel]= useState("")
   const [search, setSearch] = useState();
-  const [input, setInput]= useState(false)
+  // const [input, setInput]= useState(false)
   const [setting, toggleSetting]=useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const history = useHistory()
+  // const history = useHistory()
   const toggleDrop = () => setDropdownOpen(prevState => !prevState);
   const [width, setWidth]= useState({
     chat:'100%',
@@ -40,7 +40,7 @@ const Chat = (props) => {
   // const [read, setRead]= useState(false)
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-  const chat = useSelector((store) => store.chat);
+  // const chat = useSelector((store) => store.chat);
   const detail = user.getDetail
   const detailById = user.getDetailById
   const getData = (data) =>{

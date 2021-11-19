@@ -52,7 +52,7 @@ for backend repository click [this](https://github.com/farizian/chatting_BE)
 ### Built With
 
 * [React.js](https://reactjs.org/)
-* [Demo]()
+* [Demo](https://chatting-rho.vercel.app/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

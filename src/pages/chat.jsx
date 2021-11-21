@@ -182,8 +182,7 @@ const Chat = (props) => {
         msg: payload.msg
       })
     })
-    // tampilkan pesan history ketika ada perubahan data seperti penghapusan pesan
-    
+    socket.emit('broadcast', detail.id)
     
   })
   const handleSearch = (e) => {
@@ -193,7 +192,7 @@ const Chat = (props) => {
 
   useEffect(()=> {
     setListUser(user.getAll)
-    socket.emit('broadcast', detail.id)
+    
     socket.on('get-online-broadcast', (payload) => {
       setOn(payload)
     })

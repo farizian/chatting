@@ -13,7 +13,7 @@
   </p>
 </div>
 
-for backend repository click [this](https://github.com/farizian/chatting_BE)
+
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -52,7 +52,14 @@ for backend repository click [this](https://github.com/farizian/chatting_BE)
 ### Built With
 
 * [React.js](https://reactjs.org/)
+* [React.js](https://reactjs.org/)
+* [Redux](https://redux.js.org/)
+* [Socket.io](https://socket.io/)
+* [Reactstrap](https://reactstrap.github.io/)
+* [Axios](https://www.npmjs.com/package/axios)
+* [backend](https://github.com/farizian/chattingBE)
 * [Demo](https://chatting-rho.vercel.app/)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -77,7 +84,7 @@ built with ReactJs, and Redux on the front end, and ExpressJs, NodeJs, and Socke
    ```
 3. Start the Application
    ```js
-   npm start;
+   npm start
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>

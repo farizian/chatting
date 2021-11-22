@@ -54,6 +54,7 @@ const Chat = (props) => {
  
   useEffect(() => {
     getData()
+    socket.emit('broadcast', detail.id)
     // getHist()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -182,8 +183,9 @@ const Chat = (props) => {
         msg: payload.msg
       })
     })
-    socket.emit('broadcast', detail.id)
-    
+    socket.on('get-online-broadcast', (payload) => {
+      setOn(payload)
+    })
   })
   const handleSearch = (e) => {
     e.preventDefault();
@@ -193,9 +195,7 @@ const Chat = (props) => {
   useEffect(()=> {
     setListUser(user.getAll)
     
-    socket.on('get-online-broadcast', (payload) => {
-      setOn(payload)
-    })
+    
     getHist()
   }, [user, detail])
   return (

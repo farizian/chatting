@@ -54,8 +54,7 @@ const Chat = (props) => {
  
   useEffect(() => {
     getData()
-    // socket.emit('broadcast', detail.id)
-    // getHist()
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const getHist = () => {
@@ -170,8 +169,9 @@ const Chat = (props) => {
     }
   }
   const logOut = () => {
-    setOn([])
     socket.emit('offline', detail.id)
+    localStorage.removeItem('id')
+    setOn([])
   }
   useEffect(() => {
     // tampilkan pesan sementara yang di peroleh di be untuk di tampilkan di receiver
@@ -185,6 +185,7 @@ const Chat = (props) => {
     })
     socket.emit('broadcast', detail.id)
     
+    
   })
   const handleSearch = (e) => {
     e.preventDefault();
@@ -196,9 +197,8 @@ const Chat = (props) => {
     socket.on('get-online-broadcast', (payload) => {
       setOn(payload)
     })
-    
     getHist()
-  }, [user, detail])
+  }, [user, detail, userOn])
   return (
     <body  style={{width:'auto',display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:'khaki', padding:'0'}}>
       <div className="container-fluid p-0">
@@ -257,7 +257,7 @@ const Chat = (props) => {
                         <img src={API_URL+e.img} alt="" srcset="" />
                         <div className="d-flex flex-column">
                         <p style={{marginBottom:'5px'}} >{e.username}
-                        {userOn.includes(e.id)?<FaCircle style={{color:'lightgreen', fontSize:'10px', marginLeft:'10px'}}/>:null}
+                        {userOn.includes(`${e.id}`)?<FaCircle style={{color:'lightgreen', fontSize:'10px', marginLeft:'10px'}}/>:null}
                         </p>
                         {notif.sender === e.id?<p style={{overflow:'hidden', textOverflow:'ellipsis', width:'70px', height:'30px', margin:'0'}}>{notif.msg}</p>:null}
                         </div>

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_URL } from "../../helper/env";
-// import { getAllUser, getAllUserPending, getAllUserError, getDetailUser, getDetailUserPending, getDetailUserError, getDetailByName, getDetailByNamePending, getDetailByNameError } from "../../helper/var";
 
 
 
@@ -11,8 +10,10 @@ export const LOGIN = (data)=> {
       resolve(response.data)
       const tokenLogin = response.data.token
       const img = response.data.field[0].img
+      const id = response.data.field[0].id
       localStorage.setItem("token", tokenLogin)
       localStorage.setItem("img", img)
+      localStorage.setItem("id", id)
     }).catch ((err) => {
       reject(err)
     })

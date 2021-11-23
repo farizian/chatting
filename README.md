@@ -52,7 +52,6 @@
 ### Built With
 
 * [React.js](https://reactjs.org/)
-* [React.js](https://reactjs.org/)
 * [Redux](https://redux.js.org/)
 * [Socket.io](https://socket.io/)
 * [Reactstrap](https://reactstrap.github.io/)

@@ -7,7 +7,7 @@
 <h3 align="center">Chatting Web App</h3>
 
   <p align="center">
-    Chatting App
+    A ReactJs project chat app
     <br/>
     
   </p>
@@ -25,6 +25,7 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
+    <li><a href="#demo">Demo</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -43,7 +44,8 @@
 
 ![Screenshot](ss/chat.png)
 
-
+Chatting app is a web application for chatting, with features of notification, online status, and edit profile.
+built with ReactJs, and Redux on the front end, and ExpressJs, NodeJs, and Socket.io on the backend.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -56,38 +58,55 @@
 * [Socket.io](https://socket.io/)
 * [Reactstrap](https://reactstrap.github.io/)
 * [Axios](https://www.npmjs.com/package/axios)
+* [Vercel](https://vercel.com/)
+* [Heroku](https://www.heroku.com/)
 * [backend](https://github.com/farizian/chattingBE)
 * [Demo](https://chatting-rho.vercel.app/)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- GETTING STARTED -->
+<div id="demo"></div>
 
+## Demo
+This is a link to the demo [Chatting App](https://chatting-rho.vercel.app/)
+- Login user
+  ```
+  email: nobara@gmail.com
+  pass: 123
+  ```
+- email: brando@gmail.com
+  pass: 123
 
 <!-- GETTING STARTED -->
+<div id="getting-started"></div>
+
 ## Getting Started
 
-Chatting app is a web application for chatting, with features of notification, online status, and edit profile.
-built with ReactJs, and Redux on the front end, and ExpressJs, NodeJs, and Socket.io on the backend.
-
+### Prerequisites
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
 
 ### Installation
 
-1. Clone the repo
+1. [Clone API](https://github.com/farizian/chattingBE)
+2. Clone the repo
    ```sh
    git clone https://github.com/farizian/chatting
    ```
-2. Install NPM packages
+3. Install NPM packages
    ```sh
    npm install
    ```
-3. Start the Application
-   ```js
-   npm start
+4. Create your API in file `.env`
+   ```.env
+   REACT_APP_API_URL= 'YOUR API URL'
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- ROADMAP -->

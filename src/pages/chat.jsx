@@ -169,9 +169,9 @@ const Chat = (props) => {
     }
   }
   const logOut = () => {
-    socket.emit('offline', detail.id)
-    localStorage.removeItem('id')
-    setOn([])
+    // socket.emit('offline', detail.id)
+    // localStorage.removeItem('id')
+    // setOn([])
   }
   useEffect(() => {
     // tampilkan pesan sementara yang di peroleh di be untuk di tampilkan di receiver
@@ -183,7 +183,7 @@ const Chat = (props) => {
         msg: payload.msg
       })
     })
-    socket.emit('broadcast', detail.id)
+    // socket.emit('broadcast', detail.id)
     
     
   })
@@ -194,9 +194,9 @@ const Chat = (props) => {
 
   useEffect(()=> {
     setListUser(user.getAll)
-    socket.on('get-online-broadcast', (payload) => {
-      setOn(payload)
-    })
+    // socket.on('get-online-broadcast', (payload) => {
+    //   setOn(payload)
+    // })
     getHist()
   }, [user, detail, userOn])
   return (

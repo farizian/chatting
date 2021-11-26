@@ -29,7 +29,7 @@ export const LISTMESSAGE = (id, receiver, msg) =>{
 }
 
 export const HISTORYMESSAGE = (data) =>{
-    const { sender, receiver, msg } = data
+    const { sender, receiver } = data
     // console.log(sender)
     // console.log(receiver)
     return(dispatch)=>{
@@ -55,47 +55,47 @@ export const DELETEMESSAGE = (id, userID) =>{
 }
 
 
-const getContactPending = () =>{
-    return{
-        type: "GET_CONTACTS_PENDING"
-    }
-}
-const getContactFulfilled = (payload) =>{
-    return{
-        type: "GET_CONTACTS_FULFILLED",
-        payload
-    }
-}
-const getContactRejected = (payload) =>{
-    return{
-        type: "GET_CONTACTS_REJECTED",
-        payload
-    }
-}
+// const getContactPending = () =>{
+//     return{
+//         type: "GET_CONTACTS_PENDING"
+//     }
+// }
+// const getContactFulfilled = (payload) =>{
+//     return{
+//         type: "GET_CONTACTS_FULFILLED",
+//         payload
+//     }
+// }
+// const getContactRejected = (payload) =>{
+//     return{
+//         type: "GET_CONTACTS_REJECTED",
+//         payload
+//     }
+// }
 
-const getContactChatsPending = () =>{
-    return{
-        type: "GET_SENDERRECEIVER_PENDING"
-    }
-}
-const getContactChatsFulfilled = (payload) =>{
-    return{
-        type: "GET_SENDERRECEIVER_FULFILLED",
-        payload
-    }
-}
+// const getContactChatsPending = () =>{
+//     return{
+//         type: "GET_SENDERRECEIVER_PENDING"
+//     }
+// }
+// const getContactChatsFulfilled = (payload) =>{
+//     return{
+//         type: "GET_SENDERRECEIVER_FULFILLED",
+//         payload
+//     }
+// }
 
 const getListMessagePending = () =>{
     return{
         type: "GET_LISTMESSAGE_PENDING"
     }
 }
-const getListMessageFulfilled = (payload) =>{
-    return{
-        type: "GET_LISTMESSAGE_FULFILLED",
-        payload
-    }
-}
+// const getListMessageFulfilled = (payload) =>{
+//     return{
+//         type: "GET_LISTMESSAGE_FULFILLED",
+//         payload
+//     }
+// }
 
 const getHistoryPending = () =>{
     return{
@@ -109,22 +109,22 @@ const getHistoryFulfilled = (payload) =>{
     }
 }
 
-// const getHistoryRejected = (payload) =>{
+// // const getHistoryRejected = (payload) =>{
+// //     return{
+// //         type: "GET_CONTACTS_REJECTED",
+// //         payload
+// //     }
+// // }
+
+// const getContactsActivePending = () =>{
 //     return{
-//         type: "GET_CONTACTS_REJECTED",
-//         payload
+//         type : "GET_LISTCONTACTACTIVE_PENDING"
 //     }
 // }
 
-const getContactsActivePending = () =>{
-    return{
-        type : "GET_LISTCONTACTACTIVE_PENDING"
-    }
-}
-
-const getContactsActiveFullfilled = (payload) =>{
-    return{
-        type : "GET_LISTCONTACTACTIVE_FULFILLED",
-        payload
-    }
-}
+// const getContactsActiveFullfilled = (payload) =>{
+//     return{
+//         type : "GET_LISTCONTACTACTIVE_FULFILLED",
+//         payload
+//     }
+// }

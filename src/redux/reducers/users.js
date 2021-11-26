@@ -1,4 +1,3 @@
-import { getAllUser, getAllUserPending, getAllUserError, getDetailUser, getDetailUserPending, getDetailUserError, getDetailByName, getDetailByNamePending, getDetailByNameError } from "../../helper/var";
 
 const userState = {
   getAll: [],

@@ -32,7 +32,7 @@ const Login = () => {
       LOGIN(user).then(() =>{
         history.push(`/chat`);
       }).catch((err) =>{
-        setErr(err.response.data.error)
+        setErr(err.response)
       })
     }
   }

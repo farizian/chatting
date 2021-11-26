@@ -257,7 +257,7 @@ const Chat = (props) => {
                         <img src={API_URL+e.img} alt="" srcset="" />
                         <div className="d-flex flex-column">
                         <p style={{marginBottom:'5px'}} >{e.username}
-                        {userOn.includes(`${e.id}`)?<FaCircle style={{color:'lightgreen', fontSize:'10px', marginLeft:'10px'}}/>:null}
+                        {/* {userOn.includes(`${e.id}`)?<FaCircle style={{color:'lightgreen', fontSize:'10px', marginLeft:'10px'}}/>:null} */}
                         </p>
                         {notif.sender === e.id?<p style={{overflow:'hidden', textOverflow:'ellipsis', width:'70px', height:'30px', margin:'0'}}>{notif.msg}</p>:null}
                         </div>

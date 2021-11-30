@@ -239,6 +239,9 @@ aside .settinguser .box Input#file-input{
 /* Hide scrollbar for IE, Edge and Firefox */
 .sec .chatrow .chatbox {
   -ms-overflow-style: none;  /* IE and Edge */
+  height: 69vh;
+  width: 100%;
+  overflow: scroll;
   scrollbar-width: none;
   padding: 10px 5% 0 5%;
 }

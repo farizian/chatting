@@ -16,6 +16,7 @@ import { RiSendPlaneFill } from 'react-icons/ri'
 import { FaCircle } from 'react-icons/fa'
 import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus";
 import Usersetting from "../component/asidemenu";
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const Chat = (props) => {
   const [msg, setMsg] =useState("")
@@ -291,7 +292,7 @@ const Chat = (props) => {
               ):(
                 <nav className='chatnav' style={{backgroundColor:'transparent'}}></nav>
               )}
-              <div className="chatbox" style={{ width:"100%", height: "69vh", overflow: "scroll" }}>
+              <ScrollToBottom className="chatbox">
               {receiver?
               listMsgHistory.map((e, i) => {
                   if(e.receiver === receiver || e.sender === receiver) {
@@ -359,7 +360,7 @@ const Chat = (props) => {
                   }
                 })}
               
-              </div>
+              </ScrollToBottom>
               {receiver ? (
                 <div className='sendbox'>
                   <div className="send">
@@ -367,7 +368,8 @@ const Chat = (props) => {
                       <input type="text"
                       value={msg}
                       placeholder="Type your message..."
-                      onChange={(e) =>setMsg(e.target.value)}/>
+                      onChange={(e) =>setMsg(e.target.value)}
+                      onKeyPress={e => e.key === 'Enter' ? sendMessage(e):null}/>
                     </form>
                     <div className='rowbox'>
                       <RiSendPlaneFill onClick={sendMessage} style={{color:'#7E98DF', fontSize:'40px', cursor:'pointer'}}/>

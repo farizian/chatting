@@ -186,7 +186,7 @@ const Chat = (props) => {
     // socket.emit('broadcast', detail.id)
     
     
-  })
+  }, [listMsg])
   const handleSearch = (e) => {
     e.preventDefault();
     dispatch(GET_ALL_USER(search))

@@ -58,13 +58,7 @@ const Chat = (props) => {
     
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const getHist = () => {
-    socket.on("history-messages", (payload) => {
-      setListMsgHistory(payload)
-      setListMsg([])
-      setNotif([])
-    })
-  }
+  
   const widthmenu=()=>{
     const mediaMatch = window.matchMedia('(max-width: 576px)');
     if(!toggle){
@@ -174,9 +168,17 @@ const Chat = (props) => {
     // localStorage.removeItem('id')
     // setOn([])
   }
+  const getHist = () => {
+    socket.on("history-messages", async(data) => {
+      await setListMsgHistory(data)
+      setListMsg([])
+      setNotif([])
+    })
+  }
   useEffect(() => {
     // tampilkan pesan sementara yang di peroleh di be untuk di tampilkan di receiver
     socket.on('list-message', (payload) =>{
+      console.log(payload)
       setListMsg([...listMsg, payload])
       setNotif({
         sender: payload.sender,
@@ -199,7 +201,8 @@ const Chat = (props) => {
     //   setOn(payload)
     // })
     getHist()
-  }, [user, detail, userOn])
+  }, [user, detail, userOn, listMsgHistory])
+
   return (
     <body  style={{width:'auto',display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:'khaki', padding:'0'}}>
       <div className="container-fluid p-0">
@@ -359,7 +362,6 @@ const Chat = (props) => {
                     )
                   }
                 })}
-              
               </ScrollToBottom>
               {receiver ? (
                 <div className='sendbox'>

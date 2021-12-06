@@ -9,8 +9,8 @@ export const LOGIN = (data)=> {
     .then((response) => {
       resolve(response.data)
       const tokenLogin = response.data.token
-      const img = response.data.field[0].img
-      const id = response.data.field[0].id
+      const img = response.data.field.rows[0].img
+      const id = response.data.field.rows[0].id
       localStorage.setItem("token", tokenLogin)
       localStorage.setItem("img", img)
       localStorage.setItem("id", id)
@@ -23,9 +23,9 @@ export const REGISTER = (data)=> {
   return new Promise((resolve, reject) =>{
     axios.post(`${API_URL}register`, data)
     .then((response) => {
-      resolve(response.data.success)
-    }).catch ((response) => {
-      reject(response)
+      resolve(response.data)
+    }).catch ((err) => {
+      reject(err)
     })
   })
 }
@@ -66,7 +66,7 @@ export const GET_ALL_USER = (data) => {
     axios.get(`${API_URL}user?search=${data === undefined ? '' : data}&field=id`).then((response) => {
       dispatch({
         type: 'getAllUser',
-        payload: response.data.field.data
+        payload: response.data.field.data.rows
       })
     }).catch((err) => {
       dispatch({
@@ -77,21 +77,20 @@ export const GET_ALL_USER = (data) => {
   }
 }
 export const GET_DETAIL_BYID = (id) => {
-  console.log(id)
   return (dispatch) => {
     dispatch({
       type: "getDetailByIdPending"
     })
     axios.get(`${API_URL}detail/${id}`).then((response) => {
       const data = {
-        id: response.data.field[0].id,
-        img: response.data.field[0].img,
-        username: response.data.field[0].username,
-        email: response.data.field[0].email,
-        password: response.data.field[0].password,
-        phone: response.data.field[0].phone,
-        tagName: response.data.field[0].tagName,
-        bio: response.data.field[0].bio,
+        id: response.data.field.rows[0].id,
+        img: response.data.field.rows[0].img,
+        username: response.data.field.rows[0].username,
+        email: response.data.field.rows[0].email,
+        password: response.data.field.rows[0].password,
+        phone: response.data.field.rows[0].phone,
+        tagName: response.data.field.rows[0].tagname,
+        bio: response.data.field.rows[0].bio,
       }
       dispatch({
         type: "getDetailById",
@@ -113,14 +112,14 @@ export const GET_DETAIL_USER = () => {
     })
     axios.get(`${API_URL}mydetails`, {headers: {token: token} }).then((response) => {
       const data = {
-        id: response.data.field[0].id,
-        img: response.data.field[0].img,
-        username: response.data.field[0].username,
-        email: response.data.field[0].email,
-        password: response.data.field[0].password,
-        phone: response.data.field[0].phone,
-        tagName: response.data.field[0].tagName,
-        bio: response.data.field[0].bio,
+        id: response.data.field.rows[0].id,
+        img: response.data.field.rows[0].img,
+        username: response.data.field.rows[0].username,
+        email: response.data.field.rows[0].email,
+        password: response.data.field.rows[0].password,
+        phone: response.data.field.rows[0].phone,
+        tagName: response.data.field.rows[0].tagname,
+        bio: response.data.field.rows[0].bio,
       }
       dispatch({
         type: "getDetailUser",

@@ -13,7 +13,7 @@ const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) =>
   const [modalPw, setModalPw] = useState(false);
   const togglePw = () => setModalPw(!modalPw);
   const [updData, setUpd]=useState({})
-  
+  console.log(detail)
   const setChange=(event)=>{
     setUpd({
       ...updData,
@@ -41,7 +41,7 @@ const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) =>
       getData()
       toggleSetting(!toggle)
     }).catch((err) =>{
-      alert(err.response.data.message)
+      alert(err.response.data.error)
     })
   }
   const updatePw=(event)=>{
@@ -54,7 +54,6 @@ const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) =>
       alert(response.data.message)
     }).catch((err) =>{
       alert("password tidak sesuai")
-      console.log(err.response.data.error)
     })
     togglePw()
   }

@@ -99,7 +99,6 @@ const Chat = (props) => {
     setListMsg([]);
     setNotif({})
     toggleMsg()
-    // dispatch(HISTORYMESSAGE(data));
     socket.emit('get-message', { receiver: id, sender: detail.id})
     socket.on('history-messages', (payload) => {
       setListMsgHistory(payload)

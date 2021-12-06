@@ -110,7 +110,7 @@ export const GET_DETAIL_USER = () => {
     dispatch({
       type: "getDetailUserPending"
     })
-    axios.get(`${API_URL}mydetails`, {headers: {token: token} }).then((response) => {
+    axios.get(`${API_URL}mydetails`, {headers: {token: token} }).then((response) => { 
       const data = {
         id: response.data.field.rows[0].id,
         img: response.data.field.rows[0].img,

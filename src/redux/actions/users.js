@@ -66,7 +66,7 @@ export const GET_ALL_USER = (data) => {
     axios.get(`${API_URL}user?search=${data === undefined ? '' : data}&field=id`).then((response) => {
       dispatch({
         type: 'getAllUser',
-        payload: response.data.field.data.rows
+        payload: response.data.field.data
       })
     }).catch((err) => {
       dispatch({
@@ -83,14 +83,14 @@ export const GET_DETAIL_BYID = (id) => {
     })
     axios.get(`${API_URL}detail/${id}`).then((response) => {
       const data = {
-        id: response.data.field.rows[0].id,
-        img: response.data.field.rows[0].img,
-        username: response.data.field.rows[0].username,
-        email: response.data.field.rows[0].email,
-        password: response.data.field.rows[0].password,
-        phone: response.data.field.rows[0].phone,
-        tagName: response.data.field.rows[0].tagname,
-        bio: response.data.field.rows[0].bio,
+        id: response.data.field[0].id,
+        img: response.data.field[0].img,
+        username: response.data.field[0].username,
+        email: response.data.field[0].email,
+        password: response.data.field[0].password,
+        phone: response.data.field[0].phone,
+        tagName: response.data.field[0].tagname,
+        bio: response.data.field[0].bio,
       }
       dispatch({
         type: "getDetailById",
@@ -112,14 +112,14 @@ export const GET_DETAIL_USER = () => {
     })
     axios.get(`${API_URL}mydetails`, {headers: {token: token} }).then((response) => { 
       const data = {
-        id: response.data.field.rows[0].id,
-        img: response.data.field.rows[0].img,
-        username: response.data.field.rows[0].username,
-        email: response.data.field.rows[0].email,
-        password: response.data.field.rows[0].password,
-        phone: response.data.field.rows[0].phone,
-        tagName: response.data.field.rows[0].tagname,
-        bio: response.data.field.rows[0].bio,
+        id: response.data.field[0].id,
+        img: response.data.field[0].img,
+        username: response.data.field[0].username,
+        email: response.data.field[0].email,
+        password: response.data.field[0].password,
+        phone: response.data.field[0].phone,
+        tagName: response.data.field[0].tagname,
+        bio: response.data.field[0].bio,
       }
       dispatch({
         type: "getDetailUser",

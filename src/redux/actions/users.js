@@ -26,10 +26,19 @@ export const LOGIN = (data)=> {
 }
 export const REGISTER = (data)=> {
   return new Promise((resolve, reject) =>{
-    axios.post(`${API_URL}register`, data)
+    console.log("Sending registration data:", data);
+    console.log("API URL:", API_URL);
+    
+    axios.post(`${API_URL}register`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
     .then((response) => {
+      console.log("Registration response:", response);
       resolve(response.data)
     }).catch ((err) => {
+      console.log("Registration error:", err);
       reject(err)
     })
   })

@@ -26,17 +26,26 @@ const Login = () => {
   const handleSign =(e)=> {
     e.preventDefault();
     const valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(user.email)
-    if(user.email==="" || user.password === ""){
+    if(user.email === "" || user.password === ""){
       setErr("email atau password tidak boleh kosong")
-    } else if (user.username==="") {
+    } else if (user.username === "") {
       setErr("username tidak boleh kosong")
+    } else if (user.password.length < 3) {
+      setErr("password minimal 3 karakter")
     } else if (!valid) {
       setErr("format email tidak sesuai.")
     } else {
+      setErr(""); // Clear previous errors
       REGISTER(user).then(() =>{
+        alert("Registrasi berhasil! Silakan login.");
         history.push(`/`);
       }).catch((err) =>{
-        setErr(err.response?.data?.error || "Registration gagal")
+        console.log("Registration error:", err);
+        if(err.response && err.response.data) {
+          setErr(err.response.data.error || err.response.data.message || "Registrasi gagal");
+        } else {
+          setErr("Registrasi gagal. Periksa koneksi internet Anda.");
+        }
       })
     }
   }

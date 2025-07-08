@@ -36,7 +36,7 @@ const Login = () => {
       REGISTER(user).then(() =>{
         history.push(`/`);
       }).catch((err) =>{
-        setErr(err.response.data.error)
+        setErr(err.response?.data?.error || "Registration gagal")
       })
     }
   }
@@ -62,8 +62,7 @@ const Login = () => {
               name="username"
               value={user.username}
               onChange={setData} 
-              >
-              </input>
+              />
             </div>
             <div className="textbox">
               <p>Email</p>
@@ -73,8 +72,7 @@ const Login = () => {
               name="email"
               value={user.email}
               onChange={setData} 
-              >
-              </input>
+              />
             </div>
             <div className="textbox">
               <p>Password</p>
@@ -84,8 +82,7 @@ const Login = () => {
               name="password" 
               value={user.password}
               onChange={setData}
-              >
-              </input>
+              />
               {
                 type==='password'?(
                   <BsEyeFill className="img" style={{cursor:'pointer'}} onClick={()=>setType('text')}/>

@@ -8,12 +8,17 @@ export const LOGIN = (data)=> {
     axios.post(`${API_URL}login`, data)
     .then((response) => {
       resolve(response.data)
-      const tokenLogin = response.data.token
-      const img = response.data.field.rows[0].img
-      const id = response.data.field.rows[0].id
-      localStorage.setItem("token", tokenLogin)
-      localStorage.setItem("img", img)
-      localStorage.setItem("id", id)
+      if(response.data.token) {
+        const tokenLogin = response.data.token
+        localStorage.setItem("token", tokenLogin)
+        
+        if(response.data.field && response.data.field.rows && response.data.field.rows[0]) {
+          const img = response.data.field.rows[0].img
+          const id = response.data.field.rows[0].id
+          localStorage.setItem("img", img)
+          localStorage.setItem("id", id)
+        }
+      }
     }).catch ((err) => {
       reject(err)
     })

@@ -2,12 +2,11 @@
 import React, {useEffect, useState} from "react";
 import socket from "../config/socket";
 import { GET_DETAIL_USER, GET_ALL_USER, GET_DETAIL_BYID } from "../redux/actions/users"
-// import { LISTMESSAGE, HISTORYMESSAGE, DELETEMESSAGE, USER_ONLINE } from "../redux/actions/chat";
 import '../css/chat/body.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSelector, useDispatch } from "react-redux"
 import { API_URL } from "../helper/env";
-// import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import { HiMenuAlt1, HiOutlineTrash } from "react-icons/hi"
 import { IoIosArrowBack } from 'react-icons/io'
@@ -18,7 +17,17 @@ import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus";
 import Usersetting from "../component/asidemenu";
 import ScrollToBottom from 'react-scroll-to-bottom';
 
-const Chat = (props) => {
+const Chat = () => {
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  
+  // Get query parameters for room-based chat
+  const query = new URLSearchParams(location.search);
+  const roomId = query.get('roomId');
+  const username = query.get('username');
+  const isRoomChat = roomId && username;
+
   const [msg, setMsg] =useState("")
   const [listMsg, setListMsg] = useState([]);
   const [listUser, setListUser] = useState([]);
@@ -29,36 +38,50 @@ const Chat = (props) => {
   const [toggle, setToggle]= useState(true)
   const [toggleDel, setToggleDel]= useState("")
   const [search, setSearch] = useState();
-  // const [input, setInput]= useState(false)
   const [setting, toggleSetting]=useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const history = useHistory()
   const toggleDrop = () => setDropdownOpen(prevState => !prevState);
   const [width, setWidth]= useState({
     chat:'100%',
     profile:'none'
   })
-  // const [read, setRead]= useState(false)
-  const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-  // const chat = useSelector((store) => store.chat);
   const detail = user.getDetail
   const detailById = user.getDetailById
+
   const getData = (data) =>{
-    dispatch(GET_DETAIL_USER())
-    dispatch(GET_DETAIL_BYID(data))
-    dispatch(GET_ALL_USER())
-    
-    
+    if(!isRoomChat) {
+      dispatch(GET_DETAIL_USER())
+      if(data) dispatch(GET_DETAIL_BYID(data))
+      dispatch(GET_ALL_USER())
+    }
   }
-  socket.emit('login', detail.id);
- 
+
   useEffect(() => {
-    getData()
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if(isRoomChat) {
+      // Room-based chat setup
+      socket.emit('login', roomId);
+      setListMsg([]);
+    } else {
+      // Regular user chat setup
+      const token = localStorage.getItem("token");
+      if(!token) {
+        history.push('/');
+        return;
+      }
+      getData();
+      if(detail.id) {
+        socket.emit('login', detail.id);
+      }
+    }
   }, [])
-  
+
+  useEffect(() => {
+    if(!isRoomChat && detail.id) {
+      socket.emit('login', detail.id);
+    }
+  }, [detail.id, isRoomChat])
+
   const widthmenu=()=>{
     const mediaMatch = window.matchMedia('(max-width: 576px)');
     if(!toggle){
@@ -99,11 +122,14 @@ const Chat = (props) => {
     setListMsg([]);
     setNotif({})
     toggleMsg()
-    socket.emit('get-message', { receiver: id, sender: detail.id})
-    socket.on('history-messages', (payload) => {
-      setListMsgHistory(payload)
-    })
+    if(!isRoomChat) {
+      socket.emit('get-message', { receiver: id, sender: detail.id})
+      socket.on('history-messages', (payload) => {
+        setListMsgHistory(payload)
+      })
+    }
   }
+
   const [displayAsd, setDisplayAsd] = useState("d-block")
   const [displaySec, setDisplaySec] = useState("")
   const [displaySec2, setDisplaySec2] = useState("d-none")
@@ -117,40 +143,54 @@ const Chat = (props) => {
       setDisplaySec2("d-none")
     }
   }
-  // setelah user klik send chat
+
+  // Send message function
   const sendMessage = (e) => {
     e.preventDefault();
-    // pesan di tampung di data
-    const data = {
-      sender: detail.id,
-      receiver: receiver,
-      msg: msg
+    
+    if(msg.trim() === '') return;
+
+    if(isRoomChat) {
+      // Room-based chat flow
+      const data = {
+        username: username,
+        roomId: roomId,
+        msg: msg
+      }
+      socket.emit('send-message-private', data);
+      setListMsg([...listMsg, data])
+    } else {
+      // Regular user chat flow
+      const data = {
+        sender: detail.id,
+        receiver: receiver,
+        msg: msg
+      }
+      socket.emit('send-message', {
+        sender: detail.id,
+        receiver,
+        msg: msg
+      });
+      setListMsg([...listMsg, data])
     }
-    // dikirim ke be untuk di simpan di database dalam bentuk history pesan dan di simpan di data sementara untuk di tampilkan di receiver
-    socket.emit('send-message', {
-      sender: detail.id,
-      receiver,
-      msg: msg
-    });
-    // di set pesan sementara berdasarkan data untuk di tampilkan di sender
-    setListMsg([...listMsg, data])
-    // state penampung kalimat pesan di kosongkan
+    
     setMsg('');
-    // kosongkan notif ketika selesai mengirim chat
     setNotif({})
   };
-  // proses delete chat
+
   const handleDeleteChat = (id) => {
-    const payload = {
-      idMsg: id,
-      sender: detail.id,
-      receiver: receiver
-    }
-    try {
-      socket.emit("deleteMessage", payload)
-      setToggleDel(!toggleDel)
-    } catch (err) {
-      console.log(err)
+    if(!isRoomChat) {
+      const payload = {
+        idMsg: id,
+        sender: detail.id,
+        receiver: receiver
+      }
+      try {
+        socket.emit("deleteMessage", payload)
+        setToggleDel(!toggleDel)
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
   
@@ -163,31 +203,45 @@ const Chat = (props) => {
     }
   }
   const logOut = () => {
-    // socket.emit('offline', detail.id)
-    // localStorage.removeItem('id')
-    // setOn([])
+    if(isRoomChat) {
+      history.push('/?room=true');
+    } else {
+      localStorage.removeItem('token');
+      localStorage.removeItem('img');
+      localStorage.removeItem('id');
+      history.push('/');
+    }
   }
+
   const getHist = () => {
-    socket.on("history-messages", async(data) => {
-      await setListMsgHistory(data)
-      setListMsg([])
-      setNotif([])
-    })
-  }
-  useEffect(() => {
-    // tampilkan pesan sementara yang di peroleh di be untuk di tampilkan di receiver
-    socket.on('list-message', (payload) =>{
-      console.log(payload)
-      setListMsg([...listMsg, payload])
-      setNotif({
-        sender: payload.sender,
-        receiver: payload.receiver,
-        msg: payload.msg
+    if(!isRoomChat) {
+      socket.on("history-messages", async(data) => {
+        await setListMsgHistory(data)
+        setListMsg([])
+        setNotif([])
       })
-    })
-    // socket.emit('broadcast', detail.id)
-    
-    
+    }
+  }
+
+  useEffect(() => {
+    if(isRoomChat) {
+      // Room-based chat listeners
+      socket.on('get-message-private', (payload) => {
+        if(payload.username !== username) {
+          setListMsg(prevList => [...prevList, payload])
+        }
+      })
+    } else {
+      // Regular chat listeners
+      socket.on('list-message', (payload) =>{
+        setListMsg([...listMsg, payload])
+        setNotif({
+          sender: payload.sender,
+          receiver: payload.receiver,
+          msg: payload.msg
+        })
+      })
+    }
   }, [listMsg])
   const handleSearch = (e) => {
     e.preventDefault();
@@ -195,11 +249,10 @@ const Chat = (props) => {
   };
 
   useEffect(()=> {
-    setListUser(user.getAll)
-    // socket.on('get-online-broadcast', (payload) => {
-    //   setOn(payload)
-    // })
-    getHist()
+    if(!isRoomChat) {
+      setListUser(user.getAll)
+      getHist()
+    }
   }, [user, detail, userOn, listMsgHistory])
 
   return (
@@ -208,6 +261,32 @@ const Chat = (props) => {
         <div className="row bg-info p-0 m-0">
           <aside className={`col-lg-3 p-0 ${displayAsd}`}>
             {!setting?(
+              isRoomChat ? (
+                // Room chat sidebar
+                <div className='userlist px-4 py-4'>
+                  <nav>
+                    <h3 style={{textAlign:'left', width:'92%'}}>Room: {roomId}</h3>
+                    <button 
+                      onClick={logOut}
+                      style={{
+                        backgroundColor:'#7E98DF', 
+                        color:'white', 
+                        border:'none', 
+                        borderRadius:'10px',
+                        padding:'5px 10px',
+                        cursor:'pointer'
+                      }}
+                    >
+                      Leave
+                    </button>
+                  </nav>
+                  <div style={{marginTop:'20px', textAlign:'center'}}>
+                    <p>Welcome, {username}!</p>
+                    <p>You are in room: {roomId}</p>
+                  </div>
+                </div>
+              ) : (
+                // Regular user chat sidebar
               <div className='userlist px-4 py-4'>
               <nav>
               <h3 style={{textAlign:'left', width:'92%'}}>Chatting</h3>
@@ -270,6 +349,7 @@ const Chat = (props) => {
                 })
               )}
               </div>
+              )
             ):(
               <Usersetting
               detail={detail}
@@ -282,20 +362,20 @@ const Chat = (props) => {
           </aside>
           <section className={`col-lg-9 p-0 sec ${window.matchMedia('(max-width: 576px)').matches?displaySec2:displaySec}`} style={{ border:'solid 1px #E5E5E5'}}>
             <div className='chatrow' style={{width:width.chat}}>
-              {receiver?(
+              {(receiver || isRoomChat)?(
                 <nav className='chatnav'>
                   <IoIosArrowBack style={{fontSize:'50px', marginRight:'10px', color:'#7E98DF', cursor:'pointer'}} onClick={toggleMsg}/>
-                  <img src={API_URL+detailById.img} alt="" srcset="" />
+                  {!isRoomChat && <img src={API_URL+detailById.img} alt="" srcset="" />}
                   <div className='textbox'>
-                  <p>{detailById.username}</p>
+                    <p>{isRoomChat ? `Room: ${roomId}` : detailById.username}</p>
                   </div>
-                  <img onClick={widthmenu} className='menu' src="https://raw.githubusercontent.com/farizian/chatting/master/img/Profile_menu.png" alt="" srcset="" />
+                  {!isRoomChat && <img onClick={widthmenu} className='menu' src="https://raw.githubusercontent.com/farizian/chatting/master/img/Profile_menu.png" alt="" srcset="" />}
                 </nav>
               ):(
                 <nav className='chatnav' style={{backgroundColor:'transparent'}}></nav>
               )}
               <ScrollToBottom className="chatbox">
-              {receiver?
+              {!isRoomChat && receiver && 
               listMsgHistory.map((e, i) => {
                   if(e.receiver === receiver || e.sender === receiver) {
                     return (
@@ -319,7 +399,8 @@ const Chat = (props) => {
                       </div>
                     )
                   }
-                }):(
+                })}
+              {!isRoomChat && !receiver && (
                   <div style={{
                     width:'100%',
                     height:'300px',
@@ -337,24 +418,55 @@ const Chat = (props) => {
                   }}>Please select a chat to start messaging</p>
                   </div>
                 )}
+                {isRoomChat && listMsg.length === 0 && (
+                  <div style={{
+                    width:'100%',
+                    height:'300px',
+                    display:'flex',
+                    alignItems:'center',
+                    paddingTop:'40px'
+                  }}>
+                  <p style={{
+                    width:'100%',
+                    margin:'0',
+                    textAlign:'center',
+                    fontSize:'24px',
+                    fontWeight:'400',
+                    color:'#848484'
+                  }}>Start chatting in room {roomId}!</p>
+                  </div>
+                )}
                 {listMsg.map((e, i) => {
-                  if(e.receiver === receiver || e.sender === receiver) {
+                  if(isRoomChat || e.receiver === receiver || e.sender === receiver) {
                     return (
                       <div key={i}>
-                        {e.sender === detail.id ?
+                        {(isRoomChat ? e.username === username : e.sender === detail.id) ?
                         (
                           <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-end', alignItems:'flex-start'}}>
                             <div className="text" style={{ width:"auto", backgroundColor:'skyblue', borderRadius:"35px 10px 35px 35px", display:"flex", alignItems:"center", justifyContent:"flex-end"}} >
-                              <p style={{margin:'0', cursor:'pointer'}} onClick={()=>delBtn(e.msg)}>{e.msg}</p>
-                              {toggleDel===e.msg?<HiOutlineTrash color="white" style={{marginLeft:'7px', cursor:'pointer'}} onClick={()=>handleDeleteChat()}/>:null}
+                              <p style={{margin:'0', cursor:'pointer'}} onClick={()=>delBtn(isRoomChat ? e.msg : e.msg)}>{e.msg}</p>
+                              {!isRoomChat && toggleDel===e.msg?<HiOutlineTrash color="white" style={{marginLeft:'7px', cursor:'pointer'}} onClick={()=>handleDeleteChat()}/>:null}
                             </div>
-                            <img style={{marginLeft:'20px'}} src={API_URL+detail.img} alt="" srcset="" />
+                            {!isRoomChat && <img style={{marginLeft:'20px'}} src={API_URL+detail.img} alt="" srcset="" />}
+                            {isRoomChat && (
+                              <div style={{marginLeft:'20px', width:'54px', height:'54px', borderRadius:'20px', backgroundColor:'#7E98DF', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                                <span style={{color:'white', fontWeight:'bold'}}>{username.charAt(0).toUpperCase()}</span>
+                              </div>
+                            )}
                           </div>):
                         (
                           <div className="chatlist" style={{width:'100%', display:'flex', justifyContent:'flex-start', alignItems:'flex-end'}}>
-                            <img style={{marginRight:'20px'}} src={API_URL+detailById.img} alt="" srcset="" />
+                            {!isRoomChat && <img style={{marginRight:'20px'}} src={API_URL+detailById.img} alt="" srcset="" />}
+                            {isRoomChat && (
+                              <div style={{marginRight:'20px', width:'54px', height:'54px', borderRadius:'20px', backgroundColor:'#848484', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                                <span style={{color:'white', fontWeight:'bold'}}>{e.username.charAt(0).toUpperCase()}</span>
+                              </div>
+                            )}
                             <div className="text" style={{ width:"auto", backgroundColor:'#7E98DF', borderRadius:"35px 35px 35px 10px", display:"flex", alignItems:"center", justifyContent:"flex-start"}}>
-                              <p style={{margin:'0'}}>{e.msg}</p>
+                              <p style={{margin:'0'}}>
+                                {isRoomChat && <strong>{e.username}: </strong>}
+                                {e.msg}
+                              </p>
                             </div>
                           </div>)}
                       </div>
@@ -362,7 +474,7 @@ const Chat = (props) => {
                   }
                 })}
               </ScrollToBottom>
-              {receiver ? (
+              {(receiver || isRoomChat) ? (
                 <div className='sendbox'>
                   <div className="send">
                     <form onSubmit={sendMessage}>
@@ -382,6 +494,7 @@ const Chat = (props) => {
               )}
               
             </div>
+            {!isRoomChat && (
             <div className='profilesender' style={{display:width.profile}}>
               <nav className='navprofile'>
                 <p><strong style={{cursor:'pointer'}} onClick={widthmenu}>{'<'}</strong>{detailById.tagName}</p>
@@ -401,6 +514,7 @@ const Chat = (props) => {
                 </div>
               </div>
             </div>
+            )}
           </section>
         </div>
       </div>

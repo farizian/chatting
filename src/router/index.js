@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/react-in-jsx-scope *//* eslint-disable linebreak-style */
 import { Route, Switch } from 'react-router';
-import Home from '../pages/home';
 import Login from '../pages/login';
 import Signup from '../pages/signup';
 import Guard from './guard'
@@ -11,10 +10,18 @@ const Router = () => (
   // eslint-disable-next-line react/jsx-filename-extension
   <Switch>
     <Route path="/" exact>
-      {/* <Home /> */}
       <Login/>
     </Route>
-    <Guard path="/chat" exact component={Chat}/>
+    <Route path="/chat" exact render={(props) => {
+      const query = new URLSearchParams(props.location.search);
+      const isRoomChat = query.get('roomId') && query.get('username');
+      
+      if(isRoomChat) {
+        return <Chat {...props}/>;
+      } else {
+        return <Guard path="/chat" exact component={Chat} {...props}/>;
+      }
+    }}/>
     <Route path="/signup" exact render={(props) => <Signup {...props}/>}/>
   </Switch>
 );

@@ -23,6 +23,7 @@ const Router = () => (
       }
     }}/>
     <Route path="/signup" exact render={(props) => <Signup {...props}/>}/>
+    }
   </Switch>
 );
 

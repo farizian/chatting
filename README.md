@@ -84,6 +84,25 @@ This is a link to the demo [Chatting App](https://chatting-rho.vercel.app/)
 
 ## Getting Started
 
+### Quick Start (Using Existing Backend)
+
+The application is already configured to work with the deployed backend. You can:
+
+1. **Regular User Chat** (with backend integration):
+   - Use the login page normally
+   - Register new accounts
+   - Chat with other users
+   - Backend URL: https://chatting-be-production.up.railway.app/
+
+2. **Room-based Chat** (no backend required):
+   - Visit: `http://localhost:3000/?room=true`
+   - Enter username and room ID
+   - Start chatting immediately
+
+### Demo Accounts (for testing with backend)
+- Email: nobara@gmail.com, Password: 123
+- Email: brando@gmail.com, Password: 123
+
 ### Prerequisites
 * npm
   ```sh
@@ -92,19 +111,26 @@ This is a link to the demo [Chatting App](https://chatting-rho.vercel.app/)
 
 ### Installation
 
-1. [Clone API](https://github.com/farizian/chattingBE)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/farizian/chatting
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Create your API in file `.env`
+3. (Optional) Create your API in file `.env` if you want to use a different backend
    ```.env
-   REACT_APP_API_URL= 'YOUR API URL'
+   REACT_APP_API_URL=https://your-backend-url.com/
    ```
+4. Start the development server
+   ```sh
+   npm start
+   ```
+
+### Backend Repository
+- [Backend Source Code](https://github.com/farizian/chattingBE)
+- [Live Backend API](https://chatting-be-production.up.railway.app/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

@@ -1,6 +1,7 @@
 /* eslint-disable array-callback-return */
 import React, {useEffect, useState} from "react";
 import { UPDATE_USER, UPDATE_PW } from "../redux/actions/users"
+import socket from "../config/socket";
 import '../css/chat/body.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { API_URL } from "../helper/env";

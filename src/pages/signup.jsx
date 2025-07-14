@@ -36,10 +36,12 @@ const Login = () => {
       setErr("format email tidak sesuai.")
     } else {
       setErr(""); // Clear previous errors
+      console.log('Attempting registration with:', user);
       REGISTER(user).then(() =>{
         alert("Registrasi berhasil! Silakan login.");
         history.push(`/`);
       }).catch((err) =>{
+        console.error('Registration failed:', err);
         if(err.response && err.response.data) {
           setErr(err.response.data.error || err.response.data.message || "Registrasi gagal");
         } else {

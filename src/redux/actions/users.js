@@ -3,8 +3,13 @@ import { API_URL } from "../../helper/env";
 
 export const LOGIN = (data) => {
   return new Promise((resolve, reject) => {
-    axios.post(`${API_URL}login`, data)
+    axios.post(`${API_URL}login`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then((response) => {
+        console.log('Login response:', response.data);
         if(response.data.field && response.data.field[0]) {
           const img = response.data.field[0].img;
           const id = response.data.field[0].id;
@@ -18,6 +23,7 @@ export const LOGIN = (data) => {
         }
         resolve(response.data);
       }).catch((err) => {
+        console.error('Login error:', err.response?.data || err.message);
         reject(err);
       });
   });
@@ -25,10 +31,16 @@ export const LOGIN = (data) => {
 
 export const REGISTER = (data) => {
   return new Promise((resolve, reject) => {
-    axios.post(`${API_URL}register`, data)
+    axios.post(`${API_URL}register`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then((response) => {
+        console.log('Register response:', response.data);
         resolve(response.data);
       }).catch((err) => {
+        console.error('Register error:', err.response?.data || err.message);
         reject(err);
       });
   });

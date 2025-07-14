@@ -58,10 +58,16 @@ const Login = () => {
       } else if (!valid) {
         setErr("input email tidak sesuai.")
       } else {
+        setErr(""); // Clear previous errors
         LOGIN(user).then(() =>{
           history.push(`/chat`);
         }).catch((err) =>{
-          setErr(err.response.data?.error || "Login gagal")
+          console.log("Login error:", err);
+          if(err.response && err.response.data) {
+            setErr(err.response.data.error || err.response.data.message || "Login gagal");
+          } else {
+            setErr("Login gagal. Periksa koneksi internet Anda.");
+          }
         })
       }
     }

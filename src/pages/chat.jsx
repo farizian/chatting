@@ -70,17 +70,49 @@ const Chat = () => {
         return;
       }
       getData();
-      if(detail.id) {
-        socket.emit('login', detail.id);
-      }
     }
-  }, [])
+  }, [isRoomChat, roomId])
 
   useEffect(() => {
     if(!isRoomChat && detail.id) {
       socket.emit('login', detail.id);
     }
   }, [detail.id, isRoomChat])
+
+  // Socket event listeners
+  useEffect(() => {
+    if(isRoomChat) {
+      // Room-based chat listeners
+      socket.on('get-message-private', (payload) => {
+        if(payload.username !== username) {
+          setListMsg(prevList => [...prevList, payload])
+        }
+      })
+    } else {
+      // Regular chat listeners
+      socket.on('list-message', (payload) =>{
+        setListMsg(prevList => [...prevList, payload])
+        setNotif({
+          sender: payload.sender,
+          receiver: payload.receiver,
+          msg: payload.msg
+        })
+      })
+      
+      // History messages listener
+      socket.on("history-messages", (data) => {
+        setListMsgHistory(data)
+        setListMsg([])
+        setNotif({})
+      })
+    }
+    
+    return () => {
+      socket.off('get-message-private');
+      socket.off('list-message');
+      socket.off('history-messages');
+    }
+  }, [isRoomChat, username, listMsg])
 
   const widthmenu=()=>{
     const mediaMatch = window.matchMedia('(max-width: 576px)');
@@ -124,9 +156,6 @@ const Chat = () => {
     toggleMsg()
     if(!isRoomChat) {
       socket.emit('get-message', { receiver: id, sender: detail.id})
-      socket.on('history-messages', (payload) => {
-        setListMsgHistory(payload)
-      })
     }
   }
 
@@ -158,7 +187,7 @@ const Chat = () => {
         msg: msg
       }
       socket.emit('send-message-private', data);
-      setListMsg([...listMsg, data])
+      setListMsg(prevList => [...prevList, data])
     } else {
       // Regular user chat flow
       const data = {
@@ -171,7 +200,7 @@ const Chat = () => {
         receiver,
         msg: msg
       });
-      setListMsg([...listMsg, data])
+      setListMsg(prevList => [...prevList, data])
     }
     
     setMsg('');
@@ -206,6 +235,7 @@ const Chat = () => {
     if(isRoomChat) {
       history.push('/?room=true');
     } else {
+      socket.emit('offline', detail.id);
       localStorage.removeItem('token');
       localStorage.removeItem('img');
       localStorage.removeItem('id');
@@ -213,36 +243,6 @@ const Chat = () => {
     }
   }
 
-  const getHist = () => {
-    if(!isRoomChat) {
-      socket.on("history-messages", async(data) => {
-        await setListMsgHistory(data)
-        setListMsg([])
-        setNotif([])
-      })
-    }
-  }
-
-  useEffect(() => {
-    if(isRoomChat) {
-      // Room-based chat listeners
-      socket.on('get-message-private', (payload) => {
-        if(payload.username !== username) {
-          setListMsg(prevList => [...prevList, payload])
-        }
-      })
-    } else {
-      // Regular chat listeners
-      socket.on('list-message', (payload) =>{
-        setListMsg([...listMsg, payload])
-        setNotif({
-          sender: payload.sender,
-          receiver: payload.receiver,
-          msg: payload.msg
-        })
-      })
-    }
-  }, [listMsg])
   const handleSearch = (e) => {
     e.preventDefault();
     dispatch(GET_ALL_USER(search))
@@ -251,9 +251,8 @@ const Chat = () => {
   useEffect(()=> {
     if(!isRoomChat) {
       setListUser(user.getAll)
-      getHist()
     }
-  }, [user, detail, userOn, listMsgHistory])
+  }, [user, detail, userOn, listMsgHistory, isRoomChat])
 
   return (
     <body  style={{width:'auto',display:'flex', alignItems:'center', justifyContent:'center', backgroundColor:'khaki', padding:'0'}}>

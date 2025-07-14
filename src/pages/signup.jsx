@@ -40,7 +40,6 @@ const Login = () => {
         alert("Registrasi berhasil! Silakan login.");
         history.push(`/`);
       }).catch((err) =>{
-        console.log("Registration error:", err);
         if(err.response && err.response.data) {
           setErr(err.response.data.error || err.response.data.message || "Registrasi gagal");
         } else {

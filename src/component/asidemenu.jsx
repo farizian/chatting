@@ -58,8 +58,10 @@ const Usersetting = ({detail, toggleSetting, toggle, getData, userOn, setOn}) =>
     togglePw()
   }
   const logout=()=>{
+    socket.emit('offline', detail.id);
     localStorage.removeItem('token')
     localStorage.removeItem('img')
+    localStorage.removeItem('id')
     setOn()
     history.push('/')
   }

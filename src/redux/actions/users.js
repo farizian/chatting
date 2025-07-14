@@ -1,44 +1,26 @@
-import axios from "axios";
 import { API_URL } from "../../helper/env";
 
 
 
 export const LOGIN = (data)=> {
-  return new Promise((resolve, reject) =>{
-    axios.post(`${API_URL}login`, data)
-    .then((response) => {
+        if(response.data.field && response.data.field[0]) {
+          const img = response.data.field[0].img
+          const id = response.data.field[0].id
       resolve(response.data)
       if(response.data.token) {
         const tokenLogin = response.data.token
         localStorage.setItem("token", tokenLogin)
         
-        if(response.data.field && response.data.field.rows && response.data.field.rows[0]) {
           const img = response.data.field.rows[0].img
           const id = response.data.field.rows[0].id
           localStorage.setItem("img", img)
           localStorage.setItem("id", id)
         }
       }
-    }).catch ((err) => {
-      reject(err)
-    })
-  })
-}
-export const REGISTER = (data)=> {
-  return new Promise((resolve, reject) =>{
-    console.log("Sending registration data:", data);
-    console.log("API URL:", API_URL);
-    
-    axios.post(`${API_URL}register`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    axios.post(`${API_URL}register`, data)
     .then((response) => {
-      console.log("Registration response:", response);
       resolve(response.data)
     }).catch ((err) => {
-      console.log("Registration error:", err);
       reject(err)
     })
   })
@@ -80,7 +62,7 @@ export const GET_ALL_USER = (data) => {
     axios.get(`${API_URL}user?search=${data === undefined ? '' : data}&field=id`).then((response) => {
       dispatch({
         type: 'getAllUser',
-        payload: response.data.field.data
+        payload: response.data.field.data || response.data.field
       })
     }).catch((err) => {
       dispatch({

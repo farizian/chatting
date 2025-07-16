@@ -1,11 +1,16 @@
 import axios from 'axios';
 import { API_URL } from "../../helper/env";
 
+// Configure axios defaults
+axios.defaults.timeout = 10000;
+axios.defaults.withCredentials = false;
+
 export const LOGIN = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(`${API_URL}login`, data, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
     })
       .then((response) => {
@@ -33,7 +38,8 @@ export const REGISTER = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(`${API_URL}register`, data, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
     })
       .then((response) => {
